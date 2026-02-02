@@ -1,0 +1,673 @@
+html {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+header {
+  position: relative;
+  background-color: #121212;
+  padding: 0 2rem;
+  
+}
+
+li{
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: #8d8d8d;
+  font-size: 1,5rem;
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover{
+  color:#bbbbbb;
+}
+
+.navbar {
+  width: 100%;
+  height: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .logo a {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.navbar .links {
+  display: flex;
+  gap: 2rem;
+}
+
+.navbar .toggle_btn {
+  color: #7700ff;
+  font-size: 2rem;
+  cursor: pointer;
+  display: none;
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  
+  align-items: center;
+  text-align: center;
+}
+
+.dropdown_menu {
+  display: none;
+position: absolute;
+right: 2rem;
+top: 80px;
+height: 0;
+width: 400px;
+background: #0a0a0a;
+backdrop-filter: blur(15px);
+overflow: hidden;
+border-radius: 10px;
+transition: height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dropdown_menu.open {
+  height: 280px;
+}
+
+.dropdown_menu li {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  
+}
+
+/* Додаємо медіа-запит для екранів менше */
+@media (max-width: 1000px){
+  .navbar .links {
+    display: none;
+  } 
+
+  .navbar .toggle_btn {
+    display: block;
+  }
+
+  .dropdown_menu {
+    display: block;
+  }
+}
+
+@media (max-width: 576px){
+ .dropdown_menu {
+    display: block;
+    left: 2rem;
+    width: unset;
+  }
+
+}
+
+
+.about {
+  height: 100vh;
+  display: flex;
+  
+  align-items: center;
+  text-align: center;
+}
+
+.slogan {
+  text-align: left;
+  font-size: 30px;
+  font-weight: 300;
+  padding: 1rem;
+  margin: 20px 80px;
+  color: #8d8d8d;
+}
+
+.slogan_in {
+  font-size: 40px;
+  font-weight: 300;
+  color: #bbbbbb;
+}
+
+.slogan div {
+  opacity: 0; /* Початково приховуємо текст */
+  transform: translateY(20px); /* Початкове положення тексту нижче */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Плавний перехід */
+}
+
+.slogan div.visible {
+  opacity: 1; /* Робимо текст видимим */
+  transform: translateY(0); /* Переміщуємо текст на початкове положення */
+}
+
+  .contact h2 {
+    font-size: 40px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: #bbbbbb;
+    margin-top: 100px;
+    margin-bottom: 60px;
+    margin-left: 80px;
+  }
+
+  .gallery_w h2 {
+    font-size: 40px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: #bbbbbb;
+    margin-top: 100px;
+    margin-bottom: 60px;
+    margin-left: 80px;
+  }
+
+.contact {
+  margin-bottom: 2rem;
+}
+
+
+
+footer {
+  background-color: #0a0a0a;
+  color: #DCDCD9;
+}
+
+footer .mail_contact a {
+  text-decoration: none;
+  color: #DCDCD9;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+footer p {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+}
+
+.footer_content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.footer_content .container{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.mail_contact, .form_contact {
+  flex: 1;
+  margin: 1rem;
+}
+
+.mail_contact p {
+  font-size: 30px;
+}
+
+.footer_copyright{
+  margin-top: 2rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.social_media_links{
+  display: flex;
+  padding: 1rem;
+  gap: 2rem;
+  align-items: left;
+    
+}
+
+footer .social_media_links img{
+    width: 30px;
+    height: 30px;  
+}
+
+footer .social_media_links a{
+  margin: 0; 
+  padding: 0; 
+}
+
+footer form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;  
+  align-items: center;
+  
+}
+
+/* Стиль для полів вводу */
+input[type="email"], input[type="text"] {
+  border-radius: 10px;
+  border: none;
+  background-color: #1a1a1a;
+  color: #ffffff; /* Колір тексту */
+  height: 2rem;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Плавний перехід */
+}
+
+/* Стиль для полів вводу при фокусі */
+input[type="email"]:focus, input[type="text"]:focus {
+  background-color: #333333; /* Зміна кольору фону при фокусі */
+  color: #333333; /* Зміна кольору тексту при фокусі */
+  outline: none; /* Вимкнення стандартного обведення */
+}
+
+footer .form_contact {
+  width: 100%;
+  height: 100%;
+}
+
+.footer_content .form_contact {
+  margin: 1rem;
+  justify-content: center;
+  align-self: center;
+}
+
+footer .form_contact button{
+  border-radius: 10px;
+  border: none;
+  background-color: #7700ff;
+  color: #ffffff;
+  height: 3rem;
+  width: 200px;
+  font-size: 1.5rem;
+  margin: 1rem;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+footer .form_contact button:hover{
+  background-color: #8d8d8d;
+}
+
+/* Адаптивні стилі для екранів менше 1000 пікселів */
+@media (max-width: 1000px) {
+  .footer_content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer_content .container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .mail_contact, .form_contact {
+    width: 100%;
+    margin: 1rem 0;
+  }
+}
+
+/* Адаптивні стилі для екранів менше 767 пікселів */
+@media (max-width: 767px) {
+  .footer_content {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem; /* Додаємо відступи для уникнення горизонтального скролінгу */
+  }
+
+  .contact h2 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 1rem;
+  }
+
+  .gallery_w h2 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 1rem;
+  }
+
+  .slogan {
+    font-size: 1.5rem;
+    font-weight: 300;
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .footer_content .container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%; /* Забезпечуємо, що контейнер займає всю ширину */
+  }
+
+  footer .footer_content .form_contact{
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .form_contact form {
+    width: 100%; /* Забезпечуємо, що форма займає всю ширину */
+    max-width: 100%; /* Забезпечуємо, що форма не виходить за межі контейнера */
+  }
+
+  .mail_contact, .form_contact {
+    width: 100%;
+    margin: 1rem 0;
+  }
+
+    .social_media_links {
+    justify-content: center; /* Вирівнюємо соціальні іконки по центру */
+  }
+
+  .social_media_links a {
+    display: inline-block;
+    margin: 0.5rem;
+  }
+}
+
+.img_container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5rem;
+  max-width: 1500px;
+  padding-top: 10rem;
+  margin: auto;
+  justify-content: space-between;
+  scale: 1;
+   
+}
+
+.img_container figure {
+  opacity: 0; /* Початково приховуємо фігури */
+  transform: translateY(20px); /* Початкове положення фігур нижче */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Плавний перехід */
+}
+
+.img_container figure.visible {
+  opacity: 1; /* Робимо фігури видимими */
+  transform: translateY(0); /* Переміщуємо фігури на початкове положення */
+}
+
+h2 {
+  opacity: 0; /* Початково приховуємо заголовки */
+  transform: translateY(20px); /* Початкове положення заголовків нижче */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Плавний перехід */
+}
+
+h2.visible {
+  opacity: 1; /* Робимо заголовки видимими */
+  transform: translateY(0); /* Переміщуємо заголовки на початкове положення */
+}
+
+img {
+transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out;
+object-fit: cover;
+filter: grayscale(100%);
+}
+
+img:hover {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+figcaption {
+font-size: 1.8rem;
+color: dimgray;
+padding-top: 2rem;
+padding-bottom: 2rem;
+padding-left: 1rem;
+transition: color 0.3s ease-in-out;
+cursor: pointer;
+}
+
+figure {
+margin: 0;
+position: relative;
+overflow: hidden;
+}
+
+figcaption:hover{
+color:#bbbbbb;
+}
+
+.img_container img {
+cursor: pointer;
+}
+
+@media screen and (max-width: 1000px) {
+.img_container {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0;
+}
+} 
+
+  .back-to-top {
+    display: flex;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 20px;
+    color:#7700ff;
+    font-size: 30px;
+  }
+
+  figcaption {
+    font-size: 1.8rem;
+    color: dimgray;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+   }
+
+   figure {
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+   }
+
+figcaption:hover{
+  color:#bbbbbb;
+}
+
+video {
+  transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out;
+  object-fit: cover;
+  filter: grayscale(100%);
+  cursor: pointer;
+}
+
+video:hover {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+@media screen and (max-width: 1000px) {
+  .gallery {
+          display: grid;
+          grid-template-columns: 1fr;
+          margin: 0;
+      }
+}
+
+/* Стилі для модального вікна */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.9);
+  animation: fadeIn 0.5s;
+}
+
+.modal video {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
+  filter: none; /* Вимкнення фільтрів для відео у модальному вікні */
+  transform: none; /* Вимкнення ефектів при наведенні на відео у модальному вікні */
+  object-fit: contain; /* Зберігає пропорції відео і забезпечує його правильне відображення */
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
+  filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+  transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content:hover {
+  transform: none;
+  filter: none;
+}
+
+/* Анімація для плавної появи */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s;
+}
+
+/* Анімація для плавного зникнення */
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to {opacity: 0;}
+}
+
+.fadeOut {
+  animation: fadeOut 0.5s;
+}
+
+/* Додаємо медіа-запит для екранів менше 1000 пікселів */
+
+@media screen and (max-width: 550px) {
+  .modal {
+    display: none;
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container img{
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container video {
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .modal {
+    display: none;
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container img{
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container video {
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+
+}
+
+@media screen and (max-width: 1024px) {
+  .modal {
+    display: none;
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container img {
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container video {
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+}
+
+@media screen and (max-width: 1440px) {
+  .modal {
+    display: none;
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container img{
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+  .img_container video {
+    filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
+    transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
+  }
+
+
+}
