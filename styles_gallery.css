@@ -1,0 +1,120 @@
+<style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        .gallery-container { width: 100%; margin: 0 auto; }
+
+        /* --- Masonry Сітка --- */
+        .gallery-masonry { 
+            column-count: 5; /* Базова кількість для великих екранів */
+            column-gap: 5px; /* Зазор між стовпчиками */
+        }
+        
+        .gallery-item {
+            position: relative; /* Необхідно для позиціонування підпису */
+            break-inside: avoid; 
+            margin-bottom: 5px; /* Зазор між фото по вертикалі */
+            border-radius: 0; /* Ніяких скруглень */
+            overflow: hidden;
+            cursor: pointer; 
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        
+        .gallery-item.visible { opacity: 1; transform: translateY(0); }
+        
+        .gallery-img {
+            width: 100%; height: auto; display: block;
+            transition: transform 0.4s ease;
+        }
+
+        /* Темний градієнт знизу для красивого фону підпису */
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 50%; /* Градієнт займає половину висоти */
+            background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none; /* Щоб клік проходив крізь градієнт */
+        }
+
+        /* Стилі самого підпису */
+        .gallery-caption {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        /* Ефекти при наведенні миші */
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.03); /* Легке збільшення фото */
+        }
+        .gallery-item:hover::after,
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Адаптивність (зміна кількості колонок) --- */
+        @media (max-width: 1600px) { .gallery-masonry { column-count: 4; } }
+        @media (max-width: 1200px) { .gallery-masonry { column-count: 3; } }
+        @media (max-width: 900px) { .gallery-masonry { column-count: 2; } }
+        @media (max-width: 600px) { .gallery-masonry { column-count: 1; } }
+
+        /* --- Оверлей (Lightbox) --- */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.92);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .lightbox-overlay.active { opacity: 1; visibility: visible; }
+        
+        .lightbox-content-wrapper {
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; height: 100%;
+        }
+
+        .lightbox-content {
+            max-width: 90%; max-height: 90vh;
+            border-radius: 0; /* Ніяких скруглень в оверлеї також */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: scale(0.95); transition: transform 0.3s ease;
+            user-select: none;
+            filter: none; /* Вимикаємо будь-які фільтри для максимальної чіткості */
+        }
+        .lightbox-overlay.active .lightbox-content { transform: scale(1); }
+
+        /* --- Кнопки керування --- */
+        .lightbox-close {
+            position: absolute; top: 20px; right: 30px;
+            color: #ffffff; font-size: 40px; font-weight: 300;
+            cursor: pointer; transition: color 0.2s; user-select: none;
+            z-index: 1001;
+        }
+        .lightbox-close:hover { color: #aaaaaa; }
+
+        .nav-arrow {
+            position: absolute; top: 50%;
+            transform: translateY(-50%);
+            color: white; font-size: 50px; font-weight: bold;
+            cursor: pointer; user-select: none;
+            padding: 20px; transition: color 0.2s, transform 0.2s;
+            z-index: 1001;
+        }
+        .nav-arrow:hover { color: #aaaaaa; transform: translateY(-50%) scale(1.1); }
+        .prev-arrow { left: 20px; }
+        .next-arrow { right: 20px; }
+    </style>
