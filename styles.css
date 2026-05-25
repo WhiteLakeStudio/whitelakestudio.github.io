@@ -89,6 +89,7 @@ transition: height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 .dropdown_menu.open {
   height: 280px;
+  z-index: 1050;
 }
 
 .dropdown_menu li {
@@ -668,6 +669,76 @@ video:hover {
     filter: none; /* Вимкнення фільтрів для зображень у модальному вікні */
     transform: none; /* Вимкнення ефектів при наведенні на зображення в модальному вікні */
   }
-
-
 }
+
+/* Стилізація контейнера перемикача мов */
+.lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 15px; /* Відступ від останнього пункту меню */
+}
+
+/* Самі посилання-літери */
+.lang-btn {
+    text-decoration: none;
+    font-weight: 500;
+    color: #888888; /* Тьмяний колір для неактивної мови */
+    transition: color 0.2s ease;
+}
+
+/* Ефект наведення */
+.lang-btn:hover {
+    color: #ffffff; 
+}
+
+/* Стиль для активної мови */
+.lang-btn.active {
+    color: #ffffff !important; /* Яскравий білий колір */
+    font-weight: 700;
+    pointer-events: none; /* Вимикає клікабельність активної мови */
+}
+
+/* Розділювальна риска */
+.lang-divider {
+    color: #444444;
+    user-select: none;
+}
+
+/* Стилі для перемикача всередині дропдауну */
+.dropdown-lang-switcher {
+    display: flex;
+    justify-content: center; /* Центруємо мови у випадаючому меню */
+    align-items: center;
+    gap: 10px;
+    padding: 15px 0; /* Робимо хороші відступи, щоб зручно тапати на телефоні */
+    list-style: none;
+}
+
+/* Якщо у тебе в .dropdown_menu лінки мають специфічні стилі, 
+   ми перевизначаємо їх для кнопок мов, щоб вони не розтягувалися на всю ширину */
+.dropdown-lang-switcher .lang-btn {
+    display: inline-block;
+    width: auto;
+    padding: 0 5px;
+    text-decoration: none;
+    font-weight: 500;
+    color: #888888;
+    transition: color 0.2s ease;
+}
+
+.dropdown-lang-switcher .lang-btn:hover,
+.dropdown-lang-switcher .lang-btn.active {
+    color: #ffffff !important;
+}
+
+.dropdown-lang-switcher .lang-btn.active {
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.dropdown-lang-switcher .lang-divider {
+    color: #444444;
+    user-select: none;
+}
+
