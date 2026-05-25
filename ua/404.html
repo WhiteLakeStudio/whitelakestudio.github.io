@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 & Maintenance | WhiteLakeViz</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --text-color: #2c3e50;
+            --accent-color: #3498db;
+            --duck-yellow: #f1c40f;
+            --duck-orange: #e67e22;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .studio-logo {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #1a252f;
+            margin-bottom: 25px;
+        }
+
+        .studio-logo span {
+            color: var(--accent-color);
+        }
+
+        /* Анімація качки */
+        .duck-wrapper {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 30px;
+            cursor: pointer;
+        }
+
+        .duck {
+            width: 100%;
+            height: 100%;
+            background: var(--duck-yellow);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            box-shadow: inset -10px -10px 0 rgba(0,0,0,0.05);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Око */
+        .duck::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: 45px;
+            width: 12px;
+            height: 12px;
+            background: #2c3e50;
+            border-radius: 50%;
+            animation: blink 4s infinite;
+        }
+
+        /* Дзьоб */
+        .beak {
+            position: absolute;
+            top: 45px;
+            right: -15px;
+            width: 35px;
+            height: 25px;
+            background: var(--duck-orange);
+            border-radius: 0 20px 20px 0;
+            transform-origin: left center;
+        }
+
+        /* Крило */
+        .wing {
+            position: absolute;
+            top: 60px;
+            left: 30px;
+            width: 50px;
+            height: 35px;
+            background: #f39c12;
+            border-radius: 50%;
+            transform-origin: left top;
+        }
+
+        /* Бульбашки з текстом (QUACK!) */
+        .bubble {
+            position: absolute;
+            background: var(--text-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            top: 10px;
+            right: -30px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+
+        .bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 15px;
+            border-width: 5px 5px 0;
+            border-style: solid;
+            border-color: var(--text-color) transparent;
+        }
+
+        /* Анімації */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        @keyframes blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+
+        /* Класи для кліку (JS) */
+        .quacking .beak {
+            transform: rotate(-15deg);
+        }
+        .quacking .wing {
+            animation: flap 0.1s infinite alternate;
+        }
+        @keyframes flap {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-20deg); }
+        }
+
+        /* Текстовий блок */
+        .status-badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .lang-section {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .lang-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 15px;
+            padding-bottom: 0;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            color: #1a252f;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="studio-logo">WhiteLake<span>Viz</span></div>
+        
+        <div class="duck-wrapper" id="duckWrapper" title="Click me! / Натисни на мене!">
+            <div class="bubble" id="speechBubble">QUACK!</div>
+            <div class="duck" id="duck">
+                <div class="beak"></div>
+                <div class="wing"></div>
+            </div>
+        </div>
+
+        <div class="status-badge">404 & Technical Works</div>
+
+        <div class="lang-section">
+            <h1>Whoops! The Lake is Empty</h1>
+            <p>Either this page doesn't exist, or our studio duck accidentally pulled the plug. We are currently tuning up the site to make your 3D experience even better!</p>
+        </div>
+
+        <div class="lang-section">
+            <h1>Ой! Кудись поділось озеро...</h1>
+            <p>Або такої сторінки немає, або наша качка випадково висмикнула кабель живлення. Зараз ми проводимо технічні роботи, щоб зробити ваш досвід ще крутішим!</p>
+        </div>
+
+        <a href="index.html" class="btn">Refresh & Go Home</a>
+    </div>
+
+    <script {border-radius: 50%}>
+        const wrapper = document.getElementById('duckWrapper');
+        const bubble = document.getElementById('speechBubble');
+        
+        const quacks = ['QUACK!', 'КРЯ!', '404!', 'OPS!', 'MAINTENANCE!'];
+
+        wrapper.addEventListener('mousedown', () => {
+            wrapper.classList.add('quacking');
+            
+            // Випадковий вигук з масиву
+            const randomQuack = quacks[Math.floor(Math.random() * quacks.length)];
+            bubble.innerText = randomQuack;
+            
+            bubble.style.opacity = '1';
+            bubble.style.transform = 'scale(1) translateY(-10px)';
+        });
+
+        wrapper.addEventListener('mouseup', () => {
+            wrapper.classList.remove('quacking');
+            setTimeout(() => {
+                bubble.style.opacity = '0';
+                bubble.style.transform = 'scale(0.5)';
+            }, 400);
+        });
+
+        // Для мобільних пристроїв
+        wrapper.addEventListener('touchstart', () => wrapper.classList.add('quacking'));
+        wrapper.addEventListener('touchend', () => wrapper.classList.remove('quacking'));
+    </script>
+</body>
+</html>
