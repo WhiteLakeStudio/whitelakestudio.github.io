@@ -300,6 +300,38 @@ Materiality & Palette: The design is anchored by an abundance of natural light w
   });
 });
 </script>
+    <script>
+    (function () {
+        // 1. Перевіряємо, чи є збережений вибір користувача в пам'яті браузера
+        const savedLang = localStorage.getItem('user_lang');
+
+        if (savedLang === 'ua') {
+            // Якщо користувач раніше обрав UA, перенаправляємо
+            window.location.replace('/ua/');
+            return;
+        } else if (savedLang === 'en') {
+            // Якщо обрав EN, нікуди не перенаправляємо
+            return;
+        }
+
+        // 2. Якщо вибору в пам'яті немає (перший візит), перевіряємо мову системи/браузера
+        const browserLang = navigator.language || navigator.userLanguage;
+        
+        if (browserLang.toLowerCase().includes('uk') || browserLang.toLowerCase().includes('ua')) {
+            // Якщо мова браузера українська — кидаємо на UA версію
+            window.location.replace('/ua/');
+        }
+    })();
+</script>
+<script>
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Запам'ятовуємо вибір користувача в локальне сховище
+            localStorage.setItem('user_lang', this.getAttribute('data-lang'));
+        });
+    });
+</script>
+    
 
 </body>
 
