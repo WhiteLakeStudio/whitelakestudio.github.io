@@ -160,8 +160,12 @@
 .reel.is_live .reel_panel:not(.on) .reel_frame { transform: scale(0.86); filter: brightness(0.45) saturate(0.7); }
 .reel_img {
   position: absolute; inset: -5% 0; width: 100%; height: 110%; max-width: none; object-fit: cover;
-  transform: translateX(var(--px, 0px)); transition: none;
+  transform: translateX(var(--px, 0px)); scale: 1;
+  transition: scale 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: scale, transform;
 }
+.reel_img:hover { transform: translateX(var(--px, 0px)); }   /* cancels the global img:hover zoom */
+.reel_frame:hover .reel_img { scale: 1.07; }
 .reel_meta { position: absolute; z-index: 4; right: 0; top: calc(50% - 36% - 3.3rem); text-align: right; }
 .reel_meta small { display: block; color: #8b8b94; letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.72rem; }
 .js .reel_meta h2, .reel_meta h2 { opacity: 1; transform: none; margin: 0.15rem 0 0; font-size: 1.5rem; font-weight: 300; color: #ffffff; }
@@ -199,4 +203,4 @@ body.reel_hover .reel_cursor { opacity: 1; transform: scale(1); }
   .reel_ui { padding: 0.4rem 16px 0; }
   .reel_cursor { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .reel_frame { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .reel_frame, .reel_img { transition: none; } .reel_frame:hover .reel_img { scale: 1; } }
