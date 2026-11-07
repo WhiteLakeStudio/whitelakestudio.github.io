@@ -1,0 +1,338 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "slug": "concrete-house",
+      "category": "exterior",
+      "files": [
+        "wl_ch_1.webp",
+        "wl_ch_2.webp",
+        "wl_ch_3.webp",
+        "wl_ch_4.webp",
+        "wl_ch_5.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Concrete House",
+        "short": "Concrete House",
+        "lead": "A modern minimalist house built from raw concrete and wood, set in a forest. This exterior visualization shows how the architecture and its natural surroundings work together.",
+        "alt": "Concrete House: modern concrete and wood house in a forest, exterior 3D visualization"
+      },
+      "uk": {
+        "title": "Concrete House",
+        "short": "Concrete House",
+        "lead": "Сучасний мінімалістичний будинок із сирого бетону та дерева в лісі. Екстер'єрна візуалізація показує, як архітектура поєднується з природним оточенням.",
+        "alt": "Concrete House: сучасний будинок з бетону та дерева в лісі, екстер'єрна 3D-візуалізація"
+      }
+    },
+    {
+      "slug": "nordic-twilight-bedroom",
+      "category": "interior",
+      "files": [
+        "nt_bedroom_1.webp",
+        "nt_bedroom_2.webp",
+        "nt_bedroom_3.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Nordic Twilight Bedroom by Mykyta Drozhzhyn",
+        "short": "Nordic Twilight Bedroom",
+        "lead": "A modern bedroom interior with a deep teal headboard, wooden wall panels and a plush carpet, softly lit by the window. The visualization builds on a calm palette of colour and natural texture.",
+        "alt": "Nordic Twilight: bedroom interior visualization with teal headboard and wooden wall panels"
+      },
+      "uk": {
+        "title": "Скандинавські сутінки від Микити Дрожжина",
+        "short": "Скандинавські сутінки",
+        "lead": "Сучасна спальня з глибоким синьо-зеленим узголів'ям, дерев'яними стіновими панелями та м'яким килимом, освітлена м'яким світлом із вікна. Візуалізація будується на спокійному поєднанні кольору та натуральних фактур.",
+        "alt": "Скандинавські сутінки: візуалізація спальні з синьо-зеленим узголів'ям і дерев'яними панелями"
+      }
+    },
+    {
+      "slug": "muted-moka-study",
+      "category": "interior",
+      "files": [
+        "mm_study.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Muted Moka Study by Mykyta Drozhzhyn",
+        "short": "Muted Moka Study",
+        "lead": "A luxury minimalist home office with shadow patterns from the window blinds, a premium stone desk and sleek modern cabinetry. A study in light, shade and quiet materials.",
+        "alt": "Muted Moka Study: home office interior render with stone desk and window-blind shadows"
+      },
+      "uk": {
+        "title": "Студія Кава з молоком від Микити Дрожжина",
+        "short": "Кава з молоком",
+        "lead": "Розкішний мінімалістичний домашній кабінет із грою тіні від жалюзі, столом із натурального каменю та лаконічними шафами. Візуалізація про світло, тінь і спокійні матеріали.",
+        "alt": "Студія «Кава з молоком»: візуалізація домашнього кабінету з кам'яним столом і тінями від жалюзі"
+      }
+    },
+    {
+      "slug": "verge-workspaces",
+      "category": "interior",
+      "files": [
+        "wl_s_office_viz_2.webp",
+        "wl_s_office_viz_1.webp",
+        "wl_s_office_viz_3.webp",
+        "wl_s_office_viz_4.webp"
+      ],
+      "video": "",
+      "software": "3ds Max, Corona Renderer",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Verge Workspaces",
+        "short": "Verge Workspaces",
+        "lead": "A modern co-working and office environment that blends rugged industrial aesthetics with warm, inviting textures. The space is designed to foster focus, collaboration and comfort for today's professionals.",
+        "alt": "Verge Workspaces: industrial-style co-working office interior, 3ds Max and Corona Renderer"
+      },
+      "uk": {
+        "title": "Verge Workspaces",
+        "short": "Verge Workspaces",
+        "lead": "Сучасний коворкінг та офісний простір, де брутальна індустріальна естетика гармонійно поєднується з теплими, затишними текстурами. Простір розроблений для концентрації, колаборації та комфорту сучасних професіоналів.",
+        "alt": "Verge Workspaces: інтер'єр коворкінгу в індустріальному стилі, 3ds Max і Corona Renderer"
+      }
+    },
+    {
+      "slug": "modern-boutique-office",
+      "category": "interior",
+      "files": [
+        "wl_office_viz_3.webp",
+        "wl_office_viz_1.webp",
+        "wl_office_viz_2.webp",
+        "wl_office_viz_4.webp",
+        "wl_office_viz_5.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Modern Boutique Office",
+        "short": "Modern Boutique Office",
+        "lead": "A study in calm productivity through the lens of warm minimalism. This boutique office interior prioritises clean lines, a functional layout and an organic material palette. Light natural wood runs across the flooring, slatted wall panels and floor-to-ceiling storage, balanced by soft sage-green upholstery.",
+        "alt": "Modern boutique office interior with light wood slats and sage-green upholstery, 3D rendering"
+      },
+      "uk": {
+        "title": "Сучасний Бутик-Офіс",
+        "short": "Сучасний бутик-офіс",
+        "lead": "Дослідження спокійної продуктивності крізь призму теплого мінімалізму. Інтер'єр бутик-офісу поєднує чисті лінії, функціональне планування та органічну палітру матеріалів. Світле натуральне дерево — на підлозі, рейкових стінових панелях і системах зберігання від підлоги до стелі — збалансоване м'якою оббивкою шавлієво-зеленого відтінку.",
+        "alt": "Інтер'єр сучасного бутик-офісу зі світлим деревом і шавлієво-зеленою оббивкою, 3D-візуалізація"
+      }
+    },
+    {
+      "slug": "minimalist-bedroom",
+      "category": "interior",
+      "files": [
+        "bedroom_2_fin.webp",
+        "bedroom_2_fin_3.webp",
+        "bedroom_2_fin_1.webp",
+        "bedroom_2_fin_2.webp",
+        "bedroom_2_fin_4.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Minimalist Bedroom",
+        "short": "Minimalist Bedroom",
+        "lead": "A bedroom interior with an olive green accent wall and classic moulding. A double bed with a beige upholstered headboard is styled with white and green pillows and a textured throw, with slim black wall sconces for reading light.",
+        "alt": "Minimalist bedroom with olive accent wall and beige upholstered headboard, interior rendering"
+      },
+      "uk": {
+        "title": "Спокій в мінімалізмі",
+        "short": "Спокій в мінімалізмі",
+        "lead": "Інтер'єр спальні з оливковою акцентною стіною та класичними молдингами. Двоспальне ліжко з бежевим тканинним узголів'ям стилізоване біло-зеленими подушками та фактурним пледом, а тонкі чорні бра дають світло для читання.",
+        "alt": "Мінімалістична спальня з оливковою акцентною стіною та бежевим узголів'ям, візуалізація інтер'єру"
+      }
+    },
+    {
+      "slug": "calm-geometry",
+      "category": "interior",
+      "files": [
+        "10_Fin.webp",
+        "10_Fin_1.webp",
+        "10_Fin_2.webp",
+        "10_Fin_3.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Calm Geometry",
+        "short": "Calm Geometry",
+        "lead": "A minimalist bedroom built around a grey upholstered bed, dark textured bedding and a floating vanity desk by the window. A horizontal tube pendant with brass accents casts a warm glow against the neutral wall.",
+        "alt": "Calm Geometry: bedroom interior with grey upholstered bed and brass pendant light, 3D visualization"
+      },
+      "uk": {
+        "title": "Спокійна геометрія",
+        "short": "Спокійна геометрія",
+        "lead": "Мінімалістична спальня, де головне — ліжко з сірим м'яким узголів'ям, темна фактурна білизна та підвісний туалетний столик біля вікна. Горизонтальний лінійний світильник із латунними елементами дає тепле світіння на тлі нейтральної стіни.",
+        "alt": "Спокійна геометрія: спальня з сірим м'яким ліжком і латунним підвісним світильником, 3D-візуалізація"
+      }
+    },
+    {
+      "slug": "bathroom-interior",
+      "category": "interior",
+      "files": [
+        "int_bthroom_f1.webp",
+        "int_bthroom_f2.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Bathroom Interior",
+        "short": "Bathroom Interior",
+        "lead": "A luxurious modern bathroom with a large black-framed window overlooking a green forest. A freestanding bathtub, a floating concrete double vanity with black fittings, a large round backlit mirror and a black heated towel rail sit against beige tiles.",
+        "alt": "Modern bathroom interior with freestanding bath, concrete vanity and forest view, 3D rendering"
+      },
+      "uk": {
+        "title": "Ванна кімната",
+        "short": "Ванна кімната",
+        "lead": "Розкішна сучасна ванна кімната з великим вікном у чорній рамі та краєвидом на зелений ліс. Окрема ванна, підвісна подвійна тумба з бетону з чорними змішувачами, велике кругле дзеркало з підсвіткою та чорна рушникосушка на бежевій плитці.",
+        "alt": "Сучасна ванна кімната з окремою ванною, бетонною тумбою та видом на ліс, 3D-візуалізація"
+      }
+    },
+    {
+      "slug": "office-interior",
+      "category": "interior",
+      "files": [
+        "int_office_f1.webp",
+        "int_office_f2.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Office Interior",
+        "short": "Office Interior",
+        "lead": "A modern open-plan office with industrial design elements: rows of wooden workstations, ergonomic leather chairs and built-in planters with green plants. A black grid ceiling, carpeted floor, large windows with blinds and a perforated accent wall complete the space.",
+        "alt": "Open-plan industrial office interior with wooden workstations and planters, 3D rendering"
+      },
+      "uk": {
+        "title": "Сучасний офісний простір",
+        "short": "Сучасний офісний простір",
+        "lead": "Сучасний open-plan офіс з індустріальними елементами: ряди дерев'яних робочих станцій, ергономічні шкіряні крісла та вбудовані кашпо з живими рослинами. Чорна решітчаста стеля, ковролін, великі вікна з жалюзі та перфорована акцентна стіна завершують простір.",
+        "alt": "Офіс open-plan в індустріальному стилі з дерев'яними робочими місцями та кашпо, 3D-візуалізація"
+      }
+    },
+    {
+      "slug": "office-center",
+      "category": "exterior",
+      "files": [
+        "ext_office_f1.webp",
+        "ext_office_f2.webp",
+        "ext_office_f3.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Office Center",
+        "short": "Office Center",
+        "lead": "A modern multi-storey office building with a minimalist facade of white and light grey panels, rows of identical windows and a dark grey ground floor. Green planting and a parking area surround it under a clear blue sky.",
+        "alt": "Modern office building exterior with white and grey panel facade, architectural 3D visualization"
+      },
+      "uk": {
+        "title": "Офісний центр",
+        "short": "Офісний центр",
+        "lead": "Сучасний багатоповерховий офісний центр із мінімалістичним фасадом із білих і світло-сірих панелей, рядами однакових вікон і темно-сірим цокольним поверхом. Його оточують зелені насадження та паркувальний майданчик під чистим блакитним небом.",
+        "alt": "Фасад сучасного офісного центру з білими та сірими панелями, архітектурна 3D-візуалізація"
+      }
+    },
+    {
+      "slug": "calm-harbor",
+      "category": "interior",
+      "files": [
+        "Calm_Harbor_WL_1.webp",
+        "Calm_Harbor_WL_2.webp",
+        "Calm_Harbor_WL_3.webp",
+        "Calm_Harbor_WL_4.webp",
+        "Calm_Harbor_WL_5.webp",
+        "Calm_Harbor_WL_6.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Calm Harbor",
+        "short": "Calm Harbor",
+        "lead": "A minimalist modern home interior with integrated warm lighting. Modular beige sofas, a round dining table, sleek wood cabinetry and fluted wall panels define the space.",
+        "alt": "Calm Harbor: minimalist living room with beige modular sofa and fluted wall panels, 3D visualization"
+      },
+      "uk": {
+        "title": "Тиха Гавань",
+        "short": "Тиха Гавань",
+        "lead": "Мінімалістичний інтер'єр сучасного будинку з інтегрованим теплим освітленням. Простір формують модульні бежеві дивани, круглий обідній стіл, лаконічні дерев'яні шафи та рифлені стінові панелі.",
+        "alt": "Тиха Гавань: мінімалістична вітальня з бежевим модульним диваном і рифленими панелями, візуалізація"
+      }
+    },
+    {
+      "slug": "ford-bronco",
+      "category": "automotive",
+      "files": [
+        "bronco_ext_rf1.webp"
+      ],
+      "video": "",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Ford Bronco",
+        "short": "Ford Bronco",
+        "lead": "A blue Ford Bronco driving through deep snow drifts in a pine forest. The scene combines detailed tyre tracks, falling snow, realistic lighting and snow-covered trees.",
+        "alt": "Blue Ford Bronco driving through snow in a pine forest, automotive 3D rendering"
+      },
+      "uk": {
+        "title": "Ford Bronco",
+        "short": "Ford Bronco",
+        "lead": "Синій Ford Bronco мчить крізь глибокі снігові замети в сосновому лісі. Сцена поєднує деталізовані сліди шин, лапатий сніг, що падає, реалістичне освітлення та засніжені дерева.",
+        "alt": "Синій Ford Bronco їде по снігу крізь сосновий ліс, 3D-рендеринг автомобіля"
+      }
+    },
+    {
+      "slug": "porsche-911-turbo-s",
+      "category": "automotive",
+      "files": [],
+      "video": "porsche_911.webm",
+      "ogImage": "bronco_ext_rf1.webp",
+      "updated": "2026-11-01",
+      "en": {
+        "title": "Porsche 911 Turbo S",
+        "short": "Porsche 911 Turbo S",
+        "lead": "A 3D animation of a Porsche 911 Turbo S, created as an automotive CGI showcase.",
+        "alt": ""
+      },
+      "uk": {
+        "title": "Porsche 911 Turbo S",
+        "short": "Porsche 911 Turbo S",
+        "lead": "3D-анімація Porsche 911 Turbo S, створена як демонстрація автомобільного CGI.",
+        "alt": ""
+      }
+    }
+  ],
+  "order": {
+    "home": [
+      "concrete-house",
+      "nordic-twilight-bedroom",
+      "muted-moka-study",
+      "verge-workspaces",
+      "modern-boutique-office",
+      "minimalist-bedroom",
+      "calm-geometry",
+      "bathroom-interior",
+      "office-interior",
+      "office-center",
+      "calm-harbor",
+      "ford-bronco",
+      "porsche-911-turbo-s"
+    ],
+    "gallery": [
+      "concrete-house",
+      "muted-moka-study",
+      "nordic-twilight-bedroom",
+      "verge-workspaces",
+      "modern-boutique-office",
+      "minimalist-bedroom",
+      "calm-geometry",
+      "calm-harbor",
+      "office-center",
+      "office-interior",
+      "bathroom-interior"
+    ]
+  },
+  "sizes": {}
+}

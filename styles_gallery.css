@@ -1,5 +1,3 @@
-<style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         
         .gallery-container { width: 100%; margin: 0 auto; }
 
@@ -16,8 +14,6 @@
             border-radius: 0; /* Ніяких скруглень */
             overflow: hidden;
             cursor: pointer; 
-            opacity: 0; transform: translateY(30px);
-            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
         }
         
         .gallery-item.visible { opacity: 1; transform: translateY(0); }
@@ -118,3 +114,24 @@
         .prev-arrow { left: 20px; }
         .next-arrow { right: 20px; }
     </style>
+
+
+/* ===================== SEO / UX pass: additions ===================== */
+.js .gallery-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.js .gallery-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .gallery-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

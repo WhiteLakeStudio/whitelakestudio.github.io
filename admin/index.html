@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'">
+  <title>Адмінка | WhiteLakeViz</title>
+  <link rel="icon" href="/icons/studiologo.png" type="image/png">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="/admin/">WhiteLakeViz <span>адмінка</span></a>
+    <nav>
+      <a href="/" target="_blank" rel="noopener">Відкрити сайт</a>
+      <button id="logout" class="link" hidden>Вийти</button>
+    </nav>
+  </header>
+  <div id="msg" role="status" aria-live="polite"></div>
+  <main id="app"><p class="muted center">Завантаження…</p></main>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

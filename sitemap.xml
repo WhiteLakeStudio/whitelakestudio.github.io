@@ -1,32 +1,214 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://studiowhitelake.xyz/</loc>
-    <lastmod>2026-05-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/"/>
   </url>
-
-  <url>
-    <loc>https://studiowhitelake.xyz/gallery.html</loc>
-    <lastmod>2026-05-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
   <url>
     <loc>https://studiowhitelake.xyz/ua/</loc>
-    <lastmod>2026-05-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/"/>
   </url>
-
+  <url>
+    <loc>https://studiowhitelake.xyz/gallery.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/gallery.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/gallery.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/gallery.html"/>
+  </url>
   <url>
     <loc>https://studiowhitelake.xyz/ua/gallery.html</loc>
-    <lastmod>2026-05-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/gallery.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/gallery.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/gallery.html"/>
   </url>
-
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/concrete-house.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/concrete-house.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/concrete-house.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/concrete-house.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/concrete-house.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/concrete-house.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/concrete-house.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/concrete-house.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/nordic-twilight-bedroom.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/nordic-twilight-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/nordic-twilight-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/nordic-twilight-bedroom.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/nordic-twilight-bedroom.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/nordic-twilight-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/nordic-twilight-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/nordic-twilight-bedroom.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/muted-moka-study.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/muted-moka-study.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/muted-moka-study.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/muted-moka-study.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/muted-moka-study.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/muted-moka-study.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/muted-moka-study.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/muted-moka-study.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/verge-workspaces.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/verge-workspaces.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/verge-workspaces.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/verge-workspaces.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/verge-workspaces.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/verge-workspaces.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/verge-workspaces.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/verge-workspaces.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/modern-boutique-office.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/modern-boutique-office.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/modern-boutique-office.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/modern-boutique-office.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/modern-boutique-office.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/modern-boutique-office.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/modern-boutique-office.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/modern-boutique-office.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/minimalist-bedroom.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/minimalist-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/minimalist-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/minimalist-bedroom.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/minimalist-bedroom.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/minimalist-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/minimalist-bedroom.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/minimalist-bedroom.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/calm-geometry.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/calm-geometry.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/calm-geometry.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/calm-geometry.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/calm-geometry.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/calm-geometry.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/calm-geometry.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/calm-geometry.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/bathroom-interior.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/bathroom-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/bathroom-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/bathroom-interior.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/bathroom-interior.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/bathroom-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/bathroom-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/bathroom-interior.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/office-interior.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/office-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/office-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/office-interior.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/office-interior.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/office-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/office-interior.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/office-interior.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/office-center.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/office-center.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/office-center.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/office-center.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/office-center.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/office-center.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/office-center.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/office-center.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/calm-harbor.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/calm-harbor.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/calm-harbor.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/calm-harbor.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/calm-harbor.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/calm-harbor.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/calm-harbor.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/calm-harbor.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/ford-bronco.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/ford-bronco.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/ford-bronco.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/ford-bronco.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/ford-bronco.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/ford-bronco.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/ford-bronco.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/ford-bronco.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/projects/porsche-911-turbo-s.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/porsche-911-turbo-s.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/porsche-911-turbo-s.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/porsche-911-turbo-s.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/projects/porsche-911-turbo-s.html</loc>
+    <lastmod>2026-11-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/porsche-911-turbo-s.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/projects/porsche-911-turbo-s.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/projects/porsche-911-turbo-s.html"/>
+  </url>
 </urlset>
