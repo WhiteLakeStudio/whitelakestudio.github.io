@@ -24,7 +24,7 @@ const state = {
   thumbs: new Map(),    // file name -> blob URL of just-published images (the site needs 1–2 min to show them)
   pending: new Map(),   // file name -> { blob, w, h }   (images waiting for publish)
   removed: new Set(),   // repo image files to delete on publish
-  tab: 'home',
+  tab: 'home', section: 'projects', baseServices: '',
   draft: null, isNew: false, busy: false,
 };
 
@@ -251,7 +251,10 @@ async function loadRepo() {
   state.data = JSON.parse(text);
   state.data.sizes = state.data.sizes || {};
   state.data.order = state.data.order || { home: [], gallery: [] };
+  state.data.services = state.data.services || { updated: '', intro: { en: '', uk: '' }, note: { en: '', uk: '' }, items: [] };
+  state.data.posts = state.data.posts || [];
   state.baseJson = JSON.stringify(state.data);
+  state.baseServices = JSON.stringify(state.data.services);
   state.pending.clear(); state.removed.clear();
   logoutBtn.hidden = false;
   renderList();
@@ -287,7 +290,40 @@ function card(p, tab) {
   </li>`;
 }
 
+function sectionNav() {
+  const sec = state.section;
+  const b = (k, label) => `<button data-act="section" data-section="${k}" aria-pressed="${sec === k}">${label}</button>`;
+  return `<div class="tabs sections" role="group" aria-label="Розділ адмінки">${b('projects', 'Проєкти')}${b('services', 'Послуги й ціни')}${b('blog', 'Блог')}</div>`;
+}
+
+function barState() {
+  const d = state.data;
+  const dirty = isDirty();
+  const changes = [];
+  if (JSON.stringify(d) !== state.baseJson) changes.push('дані сайту');
+  if (state.pending.size) changes.push(`нових фото: ${state.pending.size}`);
+  if (state.removed.size) changes.push(`фото на видалення: ${state.removed.size}`);
+  return `<button class="primary" data-act="publish" ${dirty && !state.busy ? '' : 'disabled'}>Опублікувати на сайті</button>
+    <button data-act="discard" ${dirty && !state.busy ? '' : 'disabled'}>Скасувати всі зміни</button>
+    <span class="muted self-center">${dirty ? 'Неопубліковано: ' + changes.join(', ') : 'Усе опубліковано'}</span>`;
+}
+
+function publishBar() {
+  return `<div class="sticky" id="bar">${barState()}</div><div id="log" class="log" hidden></div>`;
+}
+
+function refreshBar() {
+  const bar = document.getElementById('bar');
+  if (bar) bar.innerHTML = barState();
+}
+
 function renderList() {
+  if (state.section === 'services') return renderServices();
+  if (state.section === 'blog') return renderBlog();
+  return renderProjects();
+}
+
+function renderProjects() {
   const d = state.data;
   const tab = state.tab;
   const bySlug = new Map(d.projects.map((p) => [p.slug, p]));
@@ -305,6 +341,7 @@ function renderList() {
   if (state.removed.size) changes.push(`фото на видалення: ${state.removed.size}`);
 
   app.innerHTML = `
+  ${sectionNav()}
   <div class="toolbar">
     <h1>Проєкти</h1>
     <div class="actions">
@@ -318,19 +355,14 @@ function renderList() {
     <button data-act="tab" data-tab="all" aria-pressed="${tab === 'all'}">Усі проєкти (${d.projects.length})</button>
   </div>
   <p class="muted">${tab === 'home' ? 'Порядок робіт на головній. Перша робота показується окремо й великою.' :
-    tab === 'gallery' ? 'Порядок карток у галереї. Галерея лишається такою, як ви її зробили, змінюється лише набір і порядок.' :
+    tab === 'gallery' ? 'Порядок кадрів у галереї-стрічці: перший проєкт відкриває стрічку. Номери 01, 02… проставляються самі.' :
       'Усі проєкти, навіть ті, що не показані на головній чи в галереї.'}</p>
   <ul class="cards">${shown.map((p) => card(p, tab)).join('') || '<li class="muted">Тут поки порожньо.</li>'}</ul>
   ${hidden.length ? `<h2>Не показано тут</h2><ul class="cards">${hidden.map((p) => `<li class="pcard">
       ${thumbOf(p) ? `<img class="thumb" src="${h(thumbOf(p))}" alt="">` : '<div class="thumb"></div>'}
       <div class="info"><strong>${h(byTitle(p))}</strong><span>${h(CATEGORY_LABELS[p.category] || '')}</span></div>
       <div class="acts"><button class="small" data-act="list" data-slug="${h(p.slug)}">Додати на цю сторінку</button></div></li>`).join('')}</ul>` : ''}
-  <div class="sticky">
-    <button class="primary" data-act="publish" ${dirty && !state.busy ? '' : 'disabled'}>Опублікувати на сайті</button>
-    <button data-act="discard" ${dirty && !state.busy ? '' : 'disabled'}>Скасувати всі зміни</button>
-    <span class="muted self-center">${dirty ? 'Неопубліковано: ' + changes.join(', ') : 'Усе опубліковано'}</span>
-  </div>
-  <div id="log" class="log" hidden></div>`;
+  ${publishBar()}`;
 }
 
 function moveInOrder(tab, slug, delta) {
@@ -599,6 +631,7 @@ async function publish() {
 
     say('Генерую сторінки…');
     const data = clone(state.data);
+    if (JSON.stringify(data.services) !== state.baseServices) data.services.updated = today();
     const { out, generated } = buildSite(data, files);
 
     const entries = [];
@@ -611,7 +644,7 @@ async function publish() {
     for (const [path, content] of Object.entries(out)) entries.push({ path, mode: '100644', type: 'blob', content });
     entries.push({ path: 'data/projects.json', mode: '100644', type: 'blob', content: JSON.stringify(data, null, 2) + '\n' });
     for (const path of existing) {
-      const stale = (path.startsWith('projects/') || path.startsWith('ua/projects/')) && path.endsWith('.html') && !generated.has(path);
+      const stale = !generated.has(path) && (/^(ua\/)?(projects|blog)\/[^/]+\.html$/.test(path) || path === 'services.html' || path === 'ua/services.html');
       if (stale) entries.push({ path, mode: '100644', type: 'blob', sha: null });
     }
     for (const f of state.removed) if (existing.has(`images/${f}`)) entries.push({ path: `images/${f}`, mode: '100644', type: 'blob', sha: null });
@@ -625,7 +658,7 @@ async function publish() {
     await api(`/repos/${repo}/git/refs/heads/${BRANCH}`, { method: 'PATCH', body: { sha: commit.sha, force: false } });
 
     state.head = commit.sha; state.treeSha = newTree.sha;
-    state.data = data; state.baseJson = JSON.stringify(data);
+    state.data = data; state.baseJson = JSON.stringify(data); state.baseServices = JSON.stringify(data.services);
     for (const [name, p] of state.pending) state.thumbs.set(name, (p.url ||= URL.createObjectURL(p.blob)));
     state.pending.clear(); state.removed.clear();
     state.busy = false;
@@ -637,6 +670,219 @@ async function publish() {
     const l = document.getElementById('log'); l.hidden = false; l.textContent = log.textContent;
     toast('Не вдалося опублікувати.\n' + e.message, 'error', 15000);
   }
+}
+
+/* -------------------------------------------------------- services & prices */
+
+const newService = () => ({
+  id: 'svc-' + Date.now().toString(36), active: true, eur: '', uah: '',
+  en: { title: '', desc: '', unit: 'per image', days: '', revisions: '' },
+  uk: { title: '', desc: '', unit: 'за кадр', days: '', revisions: '' },
+});
+
+function svcFields(i, s, lang, label) {
+  const l = s[lang] || {};
+  const f = (k, v) => `data-svc="${i}" data-l="${lang}" data-f="${k}" value="${h(v)}"`;
+  const money = lang === 'uk' ? ['uah', 'Ціна «від», грн', s.uah] : ['eur', 'Price «from», €', s.eur];
+  return `<fieldset><legend>${label}</legend>
+    <label>Назва</label><input type="text" ${f('title', l.title)}>
+    <label>Опис</label><textarea data-svc="${i}" data-l="${lang}" data-f="desc">${h(l.desc || '')}</textarea>
+    <div class="grid2">
+      <div><label>${money[1]}</label><input type="text" inputmode="decimal" data-svc="${i}" data-f="${money[0]}" value="${h(money[2])}" placeholder="порожньо = «ціна за запитом»"></div>
+      <div><label>Одиниця <span class="muted">(${lang === 'uk' ? 'за кадр' : 'per image'})</span></label><input type="text" ${f('unit', l.unit)}></div>
+      <div><label>Термін <span class="muted">(${lang === 'uk' ? 'наприклад, 3–5 робочих днів за кадр' : 'e.g. 3–5 working days per image'})</span></label><input type="text" ${f('days', l.days)}></div>
+      <div><label>Правки <span class="muted">(${lang === 'uk' ? 'наприклад, 2 раунди' : 'e.g. 2 rounds'})</span></label><input type="text" ${f('revisions', l.revisions)}></div>
+    </div></fieldset>`;
+}
+
+function renderServices() {
+  const sv = state.data.services;
+  const meta = (k, lang) => `<textarea data-svc="meta" data-l="${lang}" data-f="${k}">${h((sv[k] && sv[k][lang]) || '')}</textarea>`;
+  app.innerHTML = `
+  ${sectionNav()}
+  <div class="toolbar"><h1>Послуги й ціни</h1><div class="actions"><button data-act="svc-add" class="primary">+ Нова послуга</button></div></div>
+  <p class="muted">Сторінки <code>/services.html</code> та <code>/ua/services.html</code>. Англійська версія показує ціни в євро, українська — у гривнях. Порожня ціна покаже «Ціна за запитом». Усе, що ви вводите, зберігається в чернетку; на сайті з'явиться після «Опублікувати».</p>
+  <div class="card">
+    <div class="grid2">
+      <div><label>Вступ (English) <span class="muted">порожньо = стандартний текст</span></label>${meta('intro', 'en')}</div>
+      <div><label>Вступ (Українська)</label>${meta('intro', 'uk')}</div>
+      <div><label>Примітка під списком (English) <span class="muted">наприклад, про те, від чого залежить ціна</span></label>${meta('note', 'en')}</div>
+      <div><label>Примітка під списком (Українська)</label>${meta('note', 'uk')}</div>
+    </div>
+  </div>
+  ${sv.items.map((s, i) => `<div class="card mt">
+    <div class="toolbar"><label class="check"><input type="checkbox" data-svc="${i}" data-f="active" ${s.active !== false ? 'checked' : ''}> Показувати на сторінці</label>
+      <div class="actions"><button class="small" data-act="svc-up" data-i="${i}">↑</button><button class="small" data-act="svc-down" data-i="${i}">↓</button>
+      <button class="small danger" data-act="svc-del" data-i="${i}">Видалити</button></div></div>
+    <div class="grid2">${svcFields(i, s, 'en', 'English · €')}${svcFields(i, s, 'uk', 'Українська · грн')}</div>
+  </div>`).join('') || '<p class="muted">Послуг ще немає.</p>'}
+  ${publishBar()}`;
+}
+
+app.addEventListener('input', (e) => {
+  const el = e.target;
+  if (!el.dataset || el.dataset.svc === undefined || !state.data) return;
+  const sv = state.data.services;
+  const val = el.type === 'checkbox' ? el.checked : el.value;
+  const { f, l } = el.dataset;
+  if (el.dataset.svc === 'meta') { sv[f] = sv[f] || { en: '', uk: '' }; sv[f][l] = val; }
+  else {
+    const s = sv.items[Number(el.dataset.svc)];
+    if (!s) return;
+    if (l) { s[l] = s[l] || {}; s[l][f] = val; } else s[f] = val;
+  }
+  refreshBar();
+});
+
+/* ------------------------------------------------------------------- blog */
+
+const postTitle = (p) => (p.uk && p.uk.title) || (p.en && p.en.title) || p.slug;
+
+function renderBlog() {
+  const posts = [...state.data.posts].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const thumb = (p) => { const f = p.files && p.files[0]; if (!f) return ''; const pend = state.pending.get(f); return pend ? (pend.url ||= URL.createObjectURL(pend.blob)) : (state.thumbs.get(f) || `../images/${encodeURIComponent(f)}`); };
+  app.innerHTML = `
+  ${sectionNav()}
+  <div class="toolbar"><h1>Блог</h1><div class="actions"><button data-act="post-new" class="primary">+ Новий допис</button></div></div>
+  <p class="muted">Сторінки <code>/blog.html</code> та <code>/ua/blog.html</code>. Пункт «Блог» з'явиться в меню сайту, коли буде хоча б один опублікований допис. Чернетки на сайті не видно.</p>
+  <ul class="cards">${posts.map((p) => `<li class="pcard">
+    ${thumb(p) ? `<img class="thumb" src="${h(thumb(p))}" alt="" loading="lazy">` : '<div class="thumb"></div>'}
+    <div class="info"><strong>${h(postTitle(p))}<span class="badge">${p.published === false ? 'чернетка' : 'опубліковано'}</span></strong>
+      <span>${h(p.date)} · /blog/${h(p.slug)}.html</span></div>
+    <div class="acts"><button class="small" data-act="post-edit" data-slug="${h(p.slug)}">Редагувати</button></div></li>`).join('') || '<li class="muted">Дописів ще немає.</li>'}</ul>
+  ${publishBar()}`;
+}
+
+function newPostDraft() {
+  return { kind: 'post', slug: '', date: today(), published: true, imgs: [],
+    en: { title: '', lead: '', body: '' }, uk: { title: '', lead: '', body: '' } };
+}
+
+function postDraftFrom(p) {
+  const imgs = (p.files || []).map((f) => {
+    const pend = state.pending.get(f);
+    return pend ? { file: f, blob: pend.blob, w: pend.w, h: pend.h, url: (pend.url ||= URL.createObjectURL(pend.blob)), staged: true }
+      : { file: f, url: state.thumbs.get(f) || `../images/${encodeURIComponent(f)}`, existing: true };
+  });
+  return { kind: 'post', slug: p.slug, date: p.date, published: p.published !== false, imgs,
+    en: { title: '', lead: '', body: '', ...(p.en || {}) }, uk: { title: '', lead: '', body: '', ...(p.uk || {}) } };
+}
+
+function postLang(lang, label) {
+  const d = state.draft[lang];
+  return `<fieldset><legend>${label}</legend>
+    <label for="${lang}-title">Заголовок</label><input id="${lang}-title" type="text" value="${h(d.title)}">
+    <label for="${lang}-lead">Короткий вступ <span class="muted">(1–2 речення, піде в анонс і в Google)</span></label>
+    <textarea id="${lang}-lead">${h(d.lead)}</textarea>
+    <label for="${lang}-body">Текст допису</label>
+    <textarea id="${lang}-body" class="tall">${h(d.body)}</textarea>
+    <div class="hint">Абзаци розділяйте порожнім рядком. <code>## Заголовок</code> — підзаголовок. Рядки з <code>- </code> на початку — список. <code>**жирний**</code>. Посилання: <code>[текст](https://…)</code>.</div>
+  </fieldset>`;
+}
+
+function renderPostEditor() {
+  const d = state.draft;
+  app.innerHTML = `
+  <div class="toolbar"><h1>${state.isNew ? 'Новий допис' : 'Редагування: ' + h(postTitle(d))}</h1><button data-act="cancel-edit">← До списку</button></div>
+  <div class="card">
+    <div class="grid2">
+      <div><label for="slug">Адреса сторінки</label>
+        <input id="slug" type="text" value="${h(d.slug)}" ${state.isNew ? '' : 'readonly'} placeholder="наприклад, how-to-prepare-a-brief">
+        <div class="hint">Латиниця, цифри, дефіси. Після публікації не змінюється. Сторінка буде: <code>/blog/<span id="slug-preview">${h(d.slug || '…')}</span>.html</code></div></div>
+      <div><label for="date">Дата</label><input id="date" type="text" value="${h(d.date)}" placeholder="2026-11-07">
+        <div class="hint">Формат РРРР-ММ-ДД.</div>
+        <label class="check"><input id="published" type="checkbox" ${d.published ? 'checked' : ''}> Опубліковано (зніміть, щоб лишити чернеткою)</label></div>
+    </div>
+    <div class="grid2 mt">${postLang('en', 'English')}${postLang('uk', 'Українська')}</div>
+    <p class="hint">Якщо заповнена лише одна мова, у другій версії сайту покажеться той самий текст. Краще заповнити обидві.</p>
+    <h2>Фото</h2>
+    <div id="drop" class="drop">Перетягніть фото сюди або <button type="button" data-act="pick" class="small">оберіть файли</button>
+      <div class="hint">Перше фото — обкладинка допису, решта показуються під текстом.</div>
+      <input id="file" type="file" accept="image/*" multiple hidden></div>
+    <div id="imgs" class="tiles"></div>
+  </div>
+  <div class="sticky">
+    <button class="primary" data-act="save-draft">Зберегти зміни</button>
+    <button data-act="cancel-edit">Скасувати</button>
+    ${state.isNew ? '' : '<button class="danger" data-act="delete">Видалити допис</button>'}
+  </div>`;
+  renderImgs();
+  const slugEl = document.getElementById('slug');
+  let touched = !state.isNew;
+  slugEl.addEventListener('input', () => { touched = true; document.getElementById('slug-preview').textContent = slugEl.value || '…'; });
+  document.getElementById('en-title').addEventListener('input', (e) => {
+    if (state.isNew && !touched) { slugEl.value = slugify(e.target.value); document.getElementById('slug-preview').textContent = slugEl.value || '…'; }
+  });
+  const drop = document.getElementById('drop');
+  const input = document.getElementById('file');
+  input.addEventListener('change', () => { addFiles([...input.files]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', (e) => addFiles([...e.dataTransfer.files]));
+}
+
+function dropPostFiles(prevFiles, files) {
+  const data = state.data;
+  for (const f of prevFiles) {
+    if (files.includes(f)) continue;
+    if (state.pending.has(f)) state.pending.delete(f); else state.removed.add(f);
+    delete data.sizes[f];
+  }
+  for (const im of state.draft.imgs) {
+    if (im.blob && !state.pending.has(im.file)) {
+      state.pending.set(im.file, { blob: im.blob, w: im.w, h: im.h, url: im.url });
+      data.sizes[im.file] = [im.w, im.h];
+    }
+  }
+}
+
+function savePost() {
+  const d = state.draft;
+  const v = (id) => document.getElementById(id).value.trim();
+  if (state.isNew) d.slug = v('slug');
+  d.date = v('date'); d.published = document.getElementById('published').checked;
+  for (const lang of ['en', 'uk']) for (const k of ['title', 'lead', 'body']) d[lang][k] = v(`${lang}-${k}`);
+  const data = state.data;
+  if (state.isNew) {
+    if (!d.slug) d.slug = slugify(d.en.title || d.uk.title);
+    if (!d.slug) return toast('Вкажіть заголовок або адресу сторінки.', 'error');
+    if (data.posts.some((p) => p.slug === d.slug)) return toast(`Адреса «${d.slug}» уже зайнята.`, 'error');
+  }
+  const used = new Set([...state.pending.keys(), ...data.posts.flatMap((p) => p.files || []), ...data.projects.flatMap((p) => p.files)]);
+  let n = 1;
+  for (const im of d.imgs) {
+    if (im.file) continue;
+    while (used.has(`blog-${d.slug}-${n}.webp`)) n++;
+    im.file = `blog-${d.slug}-${n}.webp`; used.add(im.file);
+  }
+  const files = d.imgs.map((im) => im.file);
+  const old = state.isNew ? null : data.posts.find((p) => p.slug === d.slug);
+  const post = { slug: d.slug, date: d.date, updated: today(), published: d.published, files, en: { ...d.en }, uk: { ...d.uk } };
+  const next = clone(data); // validate before touching state
+  const idx = next.posts.findIndex((p) => p.slug === d.slug);
+  if (idx >= 0) next.posts[idx] = post; else next.posts.unshift(post);
+  const errors = validate(next);
+  if (errors.length) return toast(errors.join('\n'), 'error', 9000);
+  dropPostFiles(old ? old.files || [] : [], files);
+  const at = data.posts.findIndex((p) => p.slug === d.slug);
+  if (at >= 0) data.posts[at] = post; else data.posts.unshift(post);
+  state.draft = null;
+  renderList();
+  toast('Збережено в чернетку. Щоб допис з\'явився на сайті, натисніть «Опублікувати».', 'ok');
+}
+
+function deletePost() {
+  const d = state.draft;
+  const p = state.data.posts.find((x) => x.slug === d.slug);
+  if (!p || !confirm(`Видалити допис «${postTitle(p)}»? Його сторінки зникнуть із сайту після публікації.`)) return;
+  const alsoFiles = (p.files || []).length > 0 && confirm('Видалити також фото цього допису з репозиторію?\nОК — видалити, Скасувати — залишити в папці images.');
+  state.data.posts = state.data.posts.filter((x) => x.slug !== p.slug);
+  for (const f of p.files || []) {
+    if (state.pending.has(f)) { state.pending.delete(f); delete state.data.sizes[f]; }
+    else if (alsoFiles) { state.removed.add(f); delete state.data.sizes[f]; }
+  }
+  state.draft = null;
+  renderList();
 }
 
 /* ----------------------------------------------------------------- events */
@@ -665,9 +911,15 @@ app.addEventListener('click', (e) => {
     case 'img-left': if (i > 0) { const a = state.draft.imgs; [a[i - 1], a[i]] = [a[i], a[i - 1]]; renderImgs(); } break;
     case 'img-right': { const a = state.draft.imgs; if (i < a.length - 1) { [a[i + 1], a[i]] = [a[i], a[i + 1]]; renderImgs(); } break; }
     case 'img-del': state.draft.imgs.splice(i, 1); renderImgs(); break;
-    case 'save-draft': saveDraft(); break;
+    case 'save-draft': (state.draft && state.draft.kind === 'post' ? savePost : saveDraft)(); break;
     case 'cancel-edit': state.draft = null; renderList(); break;
-    case 'delete': deleteProject(); break;
+    case 'delete': (state.draft && state.draft.kind === 'post' ? deletePost : deleteProject)(); break;
+    case 'section': state.section = b.dataset.section; state.draft = null; renderList(); break;
+    case 'svc-add': state.data.services.items.push(newService()); renderList(); break;
+    case 'svc-del': if (confirm('Видалити цю послугу зі сторінки?')) { state.data.services.items.splice(i, 1); renderList(); } break;
+    case 'svc-up': case 'svc-down': { const a = state.data.services.items; const j = i + (act === 'svc-up' ? -1 : 1); if (j >= 0 && j < a.length) { [a[i], a[j]] = [a[j], a[i]]; renderList(); } break; }
+    case 'post-new': state.draft = newPostDraft(); state.isNew = true; renderPostEditor(); break;
+    case 'post-edit': state.draft = postDraftFrom(state.data.posts.find((x) => x.slug === slug)); state.isNew = false; renderPostEditor(); break;
     default: break;
   }
 });

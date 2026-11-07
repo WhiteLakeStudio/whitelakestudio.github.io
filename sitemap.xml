@@ -30,6 +30,20 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/gallery.html"/>
   </url>
   <url>
+    <loc>https://studiowhitelake.xyz/services.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/services.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/services.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/services.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/services.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/services.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/services.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/services.html"/>
+  </url>
+  <url>
     <loc>https://studiowhitelake.xyz/projects/concrete-house.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/concrete-house.html"/>

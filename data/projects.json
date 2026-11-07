@@ -334,5 +334,117 @@
       "bathroom-interior"
     ]
   },
-  "sizes": {}
+  "sizes": {},
+  "services": {
+    "updated": "2026-11-07",
+    "intro": {
+      "en": "",
+      "uk": ""
+    },
+    "note": {
+      "en": "",
+      "uk": ""
+    },
+    "items": [
+      {
+        "id": "interior",
+        "active": true,
+        "eur": "",
+        "uah": "",
+        "en": {
+          "title": "Interior rendering",
+          "desc": "Photorealistic images of homes, offices and hospitality spaces, from first concept to final materials.",
+          "unit": "per image",
+          "days": "",
+          "revisions": ""
+        },
+        "uk": {
+          "title": "Візуалізація інтер'єрів",
+          "desc": "Фотореалістичні зображення квартир, офісів і закладів: від першої концепції до фінальних матеріалів.",
+          "unit": "за кадр",
+          "days": "",
+          "revisions": ""
+        }
+      },
+      {
+        "id": "exterior",
+        "active": true,
+        "eur": "",
+        "uah": "",
+        "en": {
+          "title": "Exterior visualization",
+          "desc": "Buildings and their surroundings in believable light, ready for presentations and approvals.",
+          "unit": "per image",
+          "days": "",
+          "revisions": ""
+        },
+        "uk": {
+          "title": "Візуалізація екстер'єрів",
+          "desc": "Будівлі та їхнє оточення в правдоподібному світлі, готові до презентацій і погоджень.",
+          "unit": "за кадр",
+          "days": "",
+          "revisions": ""
+        }
+      },
+      {
+        "id": "automotive",
+        "active": true,
+        "eur": "",
+        "uah": "",
+        "en": {
+          "title": "Product & automotive CGI",
+          "desc": "Studio-quality stills of objects and vehicles, placed in any setting you can imagine.",
+          "unit": "per image",
+          "days": "",
+          "revisions": ""
+        },
+        "uk": {
+          "title": "Продукти та авто в CGI",
+          "desc": "Студійні зображення предметів і автомобілів у будь-якому оточенні, яке ви уявите.",
+          "unit": "за кадр",
+          "days": "",
+          "revisions": ""
+        }
+      },
+      {
+        "id": "animation",
+        "active": true,
+        "eur": "",
+        "uah": "",
+        "en": {
+          "title": "3D animation",
+          "desc": "Short animated shots that show a space or a product in motion.",
+          "unit": "",
+          "days": "",
+          "revisions": ""
+        },
+        "uk": {
+          "title": "3D-анімація",
+          "desc": "Короткі анімовані кадри, що показують простір чи продукт у русі.",
+          "unit": "",
+          "days": "",
+          "revisions": ""
+        }
+      }
+    ]
+  },
+  "posts": [
+    {
+      "slug": "how-to-prepare-a-brief",
+      "date": "2026-11-07",
+      "updated": "2026-11-07",
+      "published": false,
+      "files": [],
+      "en": {
+        "title": "How to prepare a brief for a 3D visualization",
+        "lead": "A good brief saves days of back-and-forth. Here is what we usually ask for before we start.",
+        "body": "## What to send\n\n- Plans or drawings (PDF, DWG or a clear photo of a sketch)\n- References: photos or links to images you like, with a note about what exactly you like in them\n- Materials and furniture you already chose, or the mood you want\n\n## Tell us the goal\n\nIs it a sales presentation, a permit application or a social media post? The purpose decides how many angles you need and how much detail they should show.\n\n## Agree on angles early\n\nMark the viewpoints on the plan. Changing the camera later is the most expensive kind of revision."
+      },
+      "uk": {
+        "title": "Як підготувати бриф для 3D-візуалізації",
+        "lead": "Добрий бриф заощаджує дні уточнень. Ось що ми зазвичай просимо надіслати перед стартом.",
+        "body": "## Що надіслати\n\n- Плани або креслення (PDF, DWG або чітке фото ескізу)\n- Референси: фото чи посилання на зображення, які подобаються, з поясненням, що саме\n- Матеріали й меблі, які ви вже обрали, або бажаний настрій\n\n## Розкажіть про мету\n\nЦе презентація для продажу, погодження чи пост у соцмережах? Від мети залежить, скільки ракурсів потрібно і наскільки детальними вони мають бути.\n\n## Одразу узгодьте ракурси\n\nПозначте точки огляду на плані. Зміна камери пізніше — найдорожчий вид правок."
+      }
+    }
+  ]
 }

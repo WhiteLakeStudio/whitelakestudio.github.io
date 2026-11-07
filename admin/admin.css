@@ -129,3 +129,6 @@ legend { padding: 0 0.5rem; color: var(--accent-text); }
 .mt { margin-top: 1.2rem; }
 .self-center { align-self: center; }
 .err { color: var(--danger); }
+textarea.tall { min-height: 16rem; }
+.sections { margin-top: 0; }
+.card.mt { margin-top: 1.2rem; }

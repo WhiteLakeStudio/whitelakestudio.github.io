@@ -25,7 +25,7 @@ for (const [rel, text] of Object.entries(out)) {
 }
 
 let removed = 0;
-for (const dir of ['projects', 'ua/projects']) {
+for (const dir of ['projects', 'ua/projects', 'blog', 'ua/blog']) {
   const full = path.join(root, dir);
   if (!fs.existsSync(full)) continue;
   for (const name of fs.readdirSync(full)) {
@@ -33,8 +33,7 @@ for (const dir of ['projects', 'ua/projects']) {
     if (name.endsWith('.html') && !generated.has(rel)) { fs.unlinkSync(path.join(root, rel)); removed++; }
   }
 }
+for (const rel of ['services.html', 'ua/services.html']) {
+  if (!generated.has(rel) && fs.existsSync(path.join(root, rel))) { fs.unlinkSync(path.join(root, rel)); removed++; }
+}
 console.log(`Готово: оновлено файлів — ${changed}, видалено застарілих сторінок — ${removed}`);
-
-const missing = [...new Set(data.projects.flatMap((p) => [...p.files, ...(p.video ? [p.video] : [])]))]
-  .filter((f) => !fs.existsSync(path.join(root, 'images', f)));
-if (missing.length) console.log(`УВАГА: у папці images немає файлів: ${missing.join(', ')}`);
