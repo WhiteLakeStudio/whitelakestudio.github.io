@@ -124,6 +124,17 @@
       hero.style.setProperty('--y', cy + 'px');
       hero.classList.add('is_live');
     };
+    // if the clay render is missing, fall back to the filtered main picture
+    var draftImg = hero.querySelector('.hero_draft .hero_img');
+    var mainImg = hero.querySelector('.hero_reveal > .hero_img, .hero_reveal .hero_img');
+    var useFallback = function () {
+      hero.classList.add('draft_fallback');
+      if (mainImg && draftImg && draftImg.getAttribute('src') !== mainImg.getAttribute('src')) draftImg.src = mainImg.getAttribute('src');
+    };
+    if (draftImg) {
+      draftImg.addEventListener('error', useFallback);
+      if (draftImg.complete && draftImg.naturalWidth === 0) useFallback();
+    }
     hero.addEventListener('animationend', function (e) {
       if (e.target === hero) goLive();
     });

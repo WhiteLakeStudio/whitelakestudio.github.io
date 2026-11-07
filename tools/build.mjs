@@ -37,3 +37,5 @@ for (const rel of ['services.html', 'ua/services.html']) {
   if (!generated.has(rel) && fs.existsSync(path.join(root, rel))) { fs.unlinkSync(path.join(root, rel)); removed++; }
 }
 console.log(`Готово: оновлено файлів — ${changed}, видалено застарілих сторінок — ${removed}`);
+
+if (!fs.existsSync(path.join(root, 'images', 'wl_ch_1_clay.webp'))) console.log('Увага: немає images/wl_ch_1_clay.webp, лінза на головній використає фільтр замість clay-рендеру.');

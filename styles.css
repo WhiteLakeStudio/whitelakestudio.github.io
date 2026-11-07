@@ -957,7 +957,9 @@ button:focus-visible,
   clip-path: circle(var(--r) at var(--x) var(--y));
 }
 
-.hero_draft .hero_img { filter: grayscale(1) contrast(1.3) brightness(0.8); }
+/* the lens shows images/wl_ch_1_clay.webp (clay/wireframe render of the same view) as it is */
+.hero_draft .hero_img { filter: none; }
+.draft_fallback .hero_draft .hero_img { filter: grayscale(1) contrast(1.3) brightness(0.8); }
 
 .hero_draft::before {
   content: "";
@@ -966,8 +968,10 @@ button:focus-visible,
   z-index: 1;
   background: #4a28c4;
   mix-blend-mode: color;
-  opacity: 0.42;
+  opacity: 0.18;
 }
+
+.draft_fallback .hero_draft::before { opacity: 0.42; }
 
 .hero_draft::after {
   content: "";
@@ -978,7 +982,10 @@ button:focus-visible,
     linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
   background-size: 56px 56px;
+  display: none;
 }
+
+.draft_fallback .hero_draft::after { display: block; }
 
 .hero_ring {
   position: absolute;
