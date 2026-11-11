@@ -286,7 +286,12 @@
       "bathroom-interior"
     ]
   },
-  "sizes": {},
+  "sizes": {
+    "blog-how-to-prepare-a-brief-1.webp": [
+      1672,
+      941
+    ]
+  },
   "services": {
     "updated": "2026-11-07",
     "intro": {
@@ -384,9 +389,11 @@
     {
       "slug": "how-to-prepare-a-brief",
       "date": "2026-11-07",
-      "updated": "2026-11-07",
+      "updated": "2026-11-11",
       "published": false,
-      "files": [],
+      "files": [
+        "blog-how-to-prepare-a-brief-1.webp"
+      ],
       "en": {
         "title": "How to prepare a brief for a 3D visualization",
         "lead": "A good brief saves days of back-and-forth. Here is what we usually ask for before we start.",
