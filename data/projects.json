@@ -27,50 +27,6 @@
       }
     },
     {
-      "slug": "nordic-twilight-bedroom",
-      "category": "interior",
-      "files": [
-        "nt_bedroom_1.webp",
-        "nt_bedroom_2.webp",
-        "nt_bedroom_3.webp"
-      ],
-      "video": "",
-      "updated": "2026-11-01",
-      "en": {
-        "title": "Nordic Twilight Bedroom by Mykyta Drozhzhyn",
-        "short": "Nordic Twilight Bedroom",
-        "lead": "A modern bedroom interior with a deep teal headboard, wooden wall panels and a plush carpet, softly lit by the window. The visualization builds on a calm palette of colour and natural texture.",
-        "alt": "Nordic Twilight: bedroom interior visualization with teal headboard and wooden wall panels"
-      },
-      "uk": {
-        "title": "Скандинавські сутінки від Микити Дрожжина",
-        "short": "Скандинавські сутінки",
-        "lead": "Сучасна спальня з глибоким синьо-зеленим узголів'ям, дерев'яними стіновими панелями та м'яким килимом, освітлена м'яким світлом із вікна. Візуалізація будується на спокійному поєднанні кольору та натуральних фактур.",
-        "alt": "Скандинавські сутінки: візуалізація спальні з синьо-зеленим узголів'ям і дерев'яними панелями"
-      }
-    },
-    {
-      "slug": "muted-moka-study",
-      "category": "interior",
-      "files": [
-        "mm_study.webp"
-      ],
-      "video": "",
-      "updated": "2026-11-01",
-      "en": {
-        "title": "Muted Moka Study by Mykyta Drozhzhyn",
-        "short": "Muted Moka Study",
-        "lead": "A luxury minimalist home office with shadow patterns from the window blinds, a premium stone desk and sleek modern cabinetry. A study in light, shade and quiet materials.",
-        "alt": "Muted Moka Study: home office interior render with stone desk and window-blind shadows"
-      },
-      "uk": {
-        "title": "Студія Кава з молоком від Микити Дрожжина",
-        "short": "Кава з молоком",
-        "lead": "Розкішний мінімалістичний домашній кабінет із грою тіні від жалюзі, столом із натурального каменю та лаконічними шафами. Візуалізація про світло, тінь і спокійні матеріали.",
-        "alt": "Студія «Кава з молоком»: візуалізація домашнього кабінету з кам'яним столом і тінями від жалюзі"
-      }
-    },
-    {
       "slug": "verge-workspaces",
       "category": "interior",
       "files": [
@@ -307,8 +263,6 @@
   "order": {
     "home": [
       "concrete-house",
-      "nordic-twilight-bedroom",
-      "muted-moka-study",
       "verge-workspaces",
       "modern-boutique-office",
       "minimalist-bedroom",
@@ -322,8 +276,6 @@
     ],
     "gallery": [
       "concrete-house",
-      "muted-moka-study",
-      "nordic-twilight-bedroom",
       "verge-workspaces",
       "modern-boutique-office",
       "minimalist-bedroom",
