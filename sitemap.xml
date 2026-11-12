@@ -44,6 +44,34 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/services.html"/>
   </url>
   <url>
+    <loc>https://studiowhitelake.xyz/blog.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/blog.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/blog.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/blog.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/blog/how-to-prepare-a-brief.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/blog/how-to-prepare-a-brief.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/blog/how-to-prepare-a-brief.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/blog/how-to-prepare-a-brief.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/blog/how-to-prepare-a-brief.html</loc>
+    <lastmod>2026-11-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/blog/how-to-prepare-a-brief.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/blog/how-to-prepare-a-brief.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/blog/how-to-prepare-a-brief.html"/>
+  </url>
+  <url>
     <loc>https://studiowhitelake.xyz/projects/concrete-house.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/concrete-house.html"/>
