@@ -1018,7 +1018,7 @@ function modalShell(x) {
             <div class="set_group" hidden><p class="set_h">${x.formats_h}</p><ul class="set_tags sm_formats"></ul></div>
             <div class="sm_buy">
               <span class="sm_price" hidden></span>
-              <a class="sm_cta" href="#" target="_blank" rel="noopener noreferrer nofollow" hidden></a>
+              <a class="sm_cta" target="_blank" rel="noopener noreferrer nofollow" hidden></a>
               <span class="sm_soon" hidden></span>
             </div>
           </div>
