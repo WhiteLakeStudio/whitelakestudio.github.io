@@ -290,6 +290,10 @@
     "blog-how-to-prepare-a-brief-1.webp": [
       1672,
       941
+    ],
+    "shop-wood-set-vol-1-1.webp": [
+      2400,
+      1312
     ]
   },
   "services": {
@@ -405,5 +409,35 @@
         "body": "## Що надіслати\n\n- Плани або креслення (PDF, DWG або чітке фото ескізу)\n- Референси: фото чи посилання на зображення, які подобаються, з поясненням, що саме\n- Матеріали й меблі, які ви вже обрали, або бажаний настрій\n\n## Розкажіть про мету\n\nЦе презентація для продажу, погодження чи пост у соцмережах? Від мети залежить, скільки ракурсів потрібно і наскільки детальними вони мають бути.\n\n## Одразу узгодьте ракурси\n\nПозначте точки огляду на плані. Зміна камери пізніше — найдорожчий вид правок."
       }
     }
-  ]
+  ],
+  "shop": {
+    "items": [
+      {
+        "slug": "wood-set-vol-1",
+        "date": "2026-11-21",
+        "updated": "2026-11-21",
+        "published": true,
+        "status": "free",
+        "files": [
+          "shop-wood-set-vol-1-1.webp"
+        ],
+        "url": "https://drive.google.com/drive/folders/10exlnfHd48YZjJQNC3msGZK2e0xXyS3A?usp=sharing",
+        "formats": "jpeg",
+        "en": {
+          "title": "Wood Set Vol 1",
+          "lead": "test",
+          "kind": "Wood",
+          "specs": "2мх2м",
+          "license": "Royalty-free"
+        },
+        "uk": {
+          "title": "Wood Set Vol 1",
+          "lead": "test",
+          "kind": "Деревина",
+          "specs": "2мх2м",
+          "license": "Royalty-free"
+        }
+      }
+    ]
+  }
 }
