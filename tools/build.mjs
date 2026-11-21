@@ -25,7 +25,7 @@ for (const [rel, text] of Object.entries(out)) {
 }
 
 let removed = 0;
-for (const dir of ['projects', 'ua/projects', 'blog', 'ua/blog']) {
+for (const dir of ['projects', 'ua/projects', 'blog', 'ua/blog', 'shop', 'ua/shop']) {
   const full = path.join(root, dir);
   if (!fs.existsSync(full)) continue;
   for (const name of fs.readdirSync(full)) {

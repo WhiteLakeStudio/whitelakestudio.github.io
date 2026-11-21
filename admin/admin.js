@@ -1,6 +1,6 @@
 /* WhiteLakeViz admin: edits data/projects.json + images through the GitHub API
    and regenerates every page in the browser (see build.js). No server needed. */
-import { buildSite, validate, slugify, CATEGORIES, CATEGORY_LABELS } from './build.js';
+import { buildSite, validate, slugify, CATEGORIES, CATEGORY_LABELS, SHOP_LABELS } from './build.js';
 
 const DEFAULT_REPO = 'whitelakestudio/whitelakestudio.github.io';
 const BRANCH = 'main';
@@ -253,6 +253,8 @@ async function loadRepo() {
   state.data.order = state.data.order || { home: [], gallery: [] };
   state.data.services = state.data.services || { updated: '', intro: { en: '', uk: '' }, note: { en: '', uk: '' }, items: [] };
   state.data.posts = state.data.posts || [];
+  state.data.shop = state.data.shop || { items: [] };
+  state.data.shop.items = state.data.shop.items || [];
   state.baseJson = JSON.stringify(state.data);
   state.baseServices = JSON.stringify(state.data.services);
   state.pending.clear(); state.removed.clear();
@@ -293,7 +295,7 @@ function card(p, tab) {
 function sectionNav() {
   const sec = state.section;
   const b = (k, label) => `<button data-act="section" data-section="${k}" aria-pressed="${sec === k}">${label}</button>`;
-  return `<div class="tabs sections" role="group" aria-label="Розділ адмінки">${b('projects', 'Проєкти')}${b('services', 'Послуги й ціни')}${b('blog', 'Блог')}</div>`;
+  return `<div class="tabs sections" role="group" aria-label="Розділ адмінки">${b('projects', 'Проєкти')}${b('services', 'Послуги й ціни')}${b('blog', 'Блог')}${b('shop', 'Магазин')}</div>`;
 }
 
 function barState() {
@@ -320,6 +322,7 @@ function refreshBar() {
 function renderList() {
   if (state.section === 'services') return renderServices();
   if (state.section === 'blog') return renderBlog();
+  if (state.section === 'shop') return renderShop();
   return renderProjects();
 }
 
@@ -644,7 +647,7 @@ async function publish() {
     for (const [path, content] of Object.entries(out)) entries.push({ path, mode: '100644', type: 'blob', content });
     entries.push({ path: 'data/projects.json', mode: '100644', type: 'blob', content: JSON.stringify(data, null, 2) + '\n' });
     for (const path of existing) {
-      const stale = !generated.has(path) && (/^(ua\/)?(projects|blog)\/[^/]+\.html$/.test(path) || path === 'services.html' || path === 'ua/services.html');
+      const stale = !generated.has(path) && (/^(ua\/)?(projects|blog|shop)\/[^/]+\.html$/.test(path) || path === 'services.html' || path === 'ua/services.html');
       if (stale) entries.push({ path, mode: '100644', type: 'blob', sha: null });
     }
     for (const f of state.removed) if (existing.has(`images/${f}`)) entries.push({ path: `images/${f}`, mode: '100644', type: 'blob', sha: null });
@@ -885,6 +888,190 @@ function deletePost() {
   renderList();
 }
 
+/* ------------------------------------------------------------------- shop */
+
+const itemTitle = (p) => (p.uk && p.uk.title) || (p.en && p.en.title) || p.slug;
+
+function renderShop() {
+  const items = [...state.data.shop.items].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const thumb = (p) => { const f = p.files && p.files[0]; if (!f) return ''; const pend = state.pending.get(f); return pend ? (pend.url ||= URL.createObjectURL(pend.blob)) : (state.thumbs.get(f) || `../images/${encodeURIComponent(f)}`); };
+  app.innerHTML = `
+  ${sectionNav()}
+  <div class="toolbar"><h1>Магазин</h1><div class="actions"><button data-act="item-new" class="primary">+ Нова картка</button></div></div>
+  <p class="muted">Сторінки <code>/shop.html</code> та <code>/ua/shop.html</code>. Пункт «Магазин» з'явиться в меню сайту, коли буде хоча б одна опублікована картка. Статуси: <b>Безкоштовно</b> (кнопка веде на файл), <b>За посиланням</b> (кнопка веде на сторінку покупки), <b>Скоро на сайті</b> (без кнопки).</p>
+  <ul class="cards">${items.map((p) => `<li class="pcard">
+    ${thumb(p) ? `<img class="thumb" src="${h(thumb(p))}" alt="" loading="lazy">` : '<div class="thumb"></div>'}
+    <div class="info"><strong>${h(itemTitle(p))}<span class="badge">${h(SHOP_LABELS[p.status] || '—')}</span>${p.published === false ? '<span class="badge">чернетка</span>' : ''}</strong>
+      <span>${h(p.date)} · /shop/${h(p.slug)}.html</span></div>
+    <div class="acts"><button class="small" data-act="item-edit" data-slug="${h(p.slug)}">Редагувати</button></div></li>`).join('') || '<li class="muted">Карток ще немає.</li>'}</ul>
+  ${publishBar()}`;
+}
+
+function newItemDraft() {
+  return { kind: 'item', slug: '', date: today(), published: true, status: 'free', url: '', eur: '', uah: '', software: '', formats: '', imgs: [],
+    en: { ...ITEM_LANG_EMPTY }, uk: { ...ITEM_LANG_EMPTY } };
+}
+
+const ITEM_LANG_KEYS = ['title', 'lead', 'kind', 'specs', 'license', 'tags', 'body', 'button'];
+const ITEM_LANG_EMPTY = Object.fromEntries(ITEM_LANG_KEYS.map((k) => [k, '']));
+
+function itemDraftFrom(p) {
+  const imgs = (p.files || []).map((f) => {
+    const pend = state.pending.get(f);
+    return pend ? { file: f, blob: pend.blob, w: pend.w, h: pend.h, url: (pend.url ||= URL.createObjectURL(pend.blob)), staged: true }
+      : { file: f, url: state.thumbs.get(f) || `../images/${encodeURIComponent(f)}`, existing: true };
+  });
+  return { kind: 'item', slug: p.slug, date: p.date, published: p.published !== false, status: p.status || 'free', url: p.url || '',
+    eur: p.eur ?? '', uah: p.uah ?? '', software: p.software || '', formats: p.formats || '', imgs,
+    en: { ...ITEM_LANG_EMPTY, ...(p.en || {}) }, uk: { ...ITEM_LANG_EMPTY, ...(p.uk || {}) } };
+}
+
+function itemLang(lang, label) {
+  const d = state.draft[lang];
+  return `<fieldset><legend>${label}</legend>
+    <label for="${lang}-title">Назва набору</label><input id="${lang}-title" type="text" value="${h(d.title)}">
+    <label for="${lang}-lead">Короткий опис <span class="muted">(1–2 речення, піде на картку й у Google)</span></label>
+    <textarea id="${lang}-lead">${h(d.lead)}</textarea>
+    <label for="${lang}-kind">Категорія <span class="muted">(під назвою на картці, напр. «Матеріал · Камінь»)</span></label>
+    <input id="${lang}-kind" type="text" value="${h(d.kind)}">
+    <label for="${lang}-specs">Розмір або склад <span class="muted">(напр. «1 м × 1 м» або «60 матеріалів, 4K»)</span></label>
+    <input id="${lang}-specs" type="text" value="${h(d.specs)}">
+    <label for="${lang}-license">Ліцензія <span class="muted">(напр. «Royalty-free, комерційне використання»)</span></label>
+    <input id="${lang}-license" type="text" value="${h(d.license)}">
+    <label for="${lang}-tags">Теги <span class="muted">(через кому; за ними працює пошук)</span></label>
+    <textarea id="${lang}-tags">${h(d.tags)}</textarea>
+    <label for="${lang}-body">Докладний опис <span class="muted">(необов'язково; показується на окремій сторінці набору)</span></label>
+    <textarea id="${lang}-body" class="tall">${h(d.body)}</textarea>
+    <div class="hint">Що входить у набір, формати, програми, ліцензія. Абзаци розділяйте порожнім рядком. <code>## Заголовок</code>, список з <code>- </code>, <code>**жирний**</code>, <code>[текст](https://…)</code>.</div>
+    <label for="${lang}-button">Текст кнопки <span class="muted">(необов'язково; порожньо = стандартний)</span></label>
+    <input id="${lang}-button" type="text" value="${h(d.button)}">
+  </fieldset>`;
+}
+
+function renderItemEditor() {
+  const d = state.draft;
+  const opt = (v, label) => `<option value="${v}" ${d.status === v ? 'selected' : ''}>${label}</option>`;
+  app.innerHTML = `
+  <div class="toolbar"><h1>${state.isNew ? 'Нова картка товару' : 'Редагування: ' + h(itemTitle(d))}</h1><button data-act="cancel-edit">← До списку</button></div>
+  <div class="card">
+    <div class="grid2">
+      <div><label for="status">Статус</label>
+        <select id="status">${opt('free', 'Безкоштовно')}${opt('link', 'За посиланням')}${opt('soon', 'Скоро на сайті')}</select>
+        <div id="url-box" ${d.status === 'soon' ? 'hidden' : ''}>
+          <label for="url" id="url-label">${d.status === 'free' ? 'Посилання на файл у Google Диску' : 'Посилання на сторінку покупки'}</label>
+          <input id="url" type="text" inputmode="url" value="${h(d.url)}" placeholder="https://…">
+          <div class="hint" id="url-hint">${d.status === 'free'
+            ? 'У Google Диску: ПКМ на файлі → «Поділитися» → «Усі, хто має посилання» → скопіюйте посилання й вставте сюди. Сайт сам зробить із нього пряме завантаження.'
+            : 'Сторінка набору на CGTrader або іншому майданчику. Назву майданчика кнопка підставить сама. Відкривається в новій вкладці.'}</div>
+        </div>
+        <div id="price-box" class="grid2" ${d.status === 'link' ? '' : 'hidden'}>
+          <div><label for="eur">Ціна, €</label><input id="eur" type="text" inputmode="decimal" value="${h(d.eur)}" placeholder="порожньо = без ціни"></div>
+          <div><label for="uah">Ціна, грн</label><input id="uah" type="text" inputmode="decimal" value="${h(d.uah)}" placeholder="порожньо = без ціни"></div>
+        </div>
+        <label for="software">Програма й версія <span class="muted">(напр. «Blender 4.2+»)</span></label>
+        <input id="software" type="text" value="${h(d.software)}">
+        <label for="formats">Доступні формати <span class="muted">(через кому: Blender, FBX, OBJ…)</span></label>
+        <input id="formats" type="text" value="${h(d.formats)}">
+      </div>
+      <div><label for="slug">Адреса сторінки</label>
+        <input id="slug" type="text" value="${h(d.slug)}" ${state.isNew ? '' : 'readonly'} placeholder="наприклад, interior-lights-set">
+        <div class="hint">Латиниця, цифри, дефіси. Після публікації не змінюється. Сторінка буде: <code>/shop/<span id="slug-preview">${h(d.slug || '…')}</span>.html</code></div>
+        <label for="date">Дата</label><input id="date" type="text" value="${h(d.date)}" placeholder="2026-11-16">
+        <label class="check"><input id="published" type="checkbox" ${d.published ? 'checked' : ''}> Показувати на сайті (зніміть, щоб лишити чернеткою)</label></div>
+    </div>
+    <div class="grid2 mt">${itemLang('en', 'English')}${itemLang('uk', 'Українська')}</div>
+    <p class="hint">Якщо заповнена лише одна мова, у другій версії сайту покажеться той самий текст. Краще заповнити обидві.</p>
+    <h2>Фото</h2>
+    <div id="drop" class="drop">Перетягніть фото сюди або <button type="button" data-act="pick" class="small">оберіть файли</button>
+      <div class="hint">Перше фото — обкладинка картки, решта показуються на сторінці набору. Для «Скоро на сайті» фото необов'язкові.</div>
+      <input id="file" type="file" accept="image/*" multiple hidden></div>
+    <div id="imgs" class="tiles"></div>
+  </div>
+  <div class="sticky">
+    <button class="primary" data-act="save-draft">Зберегти зміни</button>
+    <button data-act="cancel-edit">Скасувати</button>
+    ${state.isNew ? '' : '<button class="danger" data-act="delete">Видалити картку</button>'}
+  </div>`;
+  renderImgs();
+  const slugEl = document.getElementById('slug');
+  let touched = !state.isNew;
+  slugEl.addEventListener('input', () => { touched = true; document.getElementById('slug-preview').textContent = slugEl.value || '…'; });
+  document.getElementById('en-title').addEventListener('input', (e) => {
+    if (state.isNew && !touched) { slugEl.value = slugify(e.target.value); document.getElementById('slug-preview').textContent = slugEl.value || '…'; }
+  });
+  document.getElementById('status').addEventListener('change', (e) => {
+    document.getElementById('url-box').hidden = e.target.value === 'soon';
+    document.getElementById('price-box').hidden = e.target.value !== 'link';
+    const free = e.target.value === 'free';
+    document.getElementById('url-label').textContent = free ? 'Посилання на файл у Google Диску' : 'Посилання на сторінку покупки';
+    document.getElementById('url-hint').textContent = free
+      ? 'У Google Диску: ПКМ на файлі → «Поділитися» → «Усі, хто має посилання» → скопіюйте посилання й вставте сюди. Сайт сам зробить із нього пряме завантаження.'
+      : 'Сторінка набору на CGTrader або іншому майданчику. Назву майданчика кнопка підставить сама. Відкривається в новій вкладці.';
+  });
+  const drop = document.getElementById('drop');
+  const input = document.getElementById('file');
+  input.addEventListener('change', () => { addFiles([...input.files]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', (e) => addFiles([...e.dataTransfer.files]));
+}
+
+function saveItem() {
+  const d = state.draft;
+  const v = (id) => document.getElementById(id).value.trim();
+  if (state.isNew) d.slug = v('slug');
+  d.date = v('date'); d.published = document.getElementById('published').checked;
+  d.status = v('status'); d.url = d.status === 'soon' ? '' : v('url');
+  d.eur = d.status === 'link' ? v('eur') : ''; d.uah = d.status === 'link' ? v('uah') : '';
+  d.software = v('software'); d.formats = v('formats');
+  for (const lang of ['en', 'uk']) for (const k of ITEM_LANG_KEYS) d[lang][k] = v(`${lang}-${k}`);
+  const data = state.data;
+  if (state.isNew) {
+    if (!d.slug) d.slug = slugify(d.en.title || d.uk.title);
+    if (!d.slug) return toast('Вкажіть назву або адресу сторінки.', 'error');
+    if (data.shop.items.some((p) => p.slug === d.slug)) return toast(`Адреса «${d.slug}» уже зайнята.`, 'error');
+  }
+  const used = new Set([...state.pending.keys(), ...data.shop.items.flatMap((p) => p.files || []), ...data.posts.flatMap((p) => p.files || []), ...data.projects.flatMap((p) => p.files)]);
+  let n = 1;
+  for (const im of d.imgs) {
+    if (im.file) continue;
+    while (used.has(`shop-${d.slug}-${n}.webp`)) n++;
+    im.file = `shop-${d.slug}-${n}.webp`; used.add(im.file);
+  }
+  const files = d.imgs.map((im) => im.file);
+  const old = state.isNew ? null : data.shop.items.find((p) => p.slug === d.slug);
+  const clean = (o) => Object.fromEntries(Object.entries(o).filter(([, x]) => x !== ''));
+  const item = { slug: d.slug, date: d.date, updated: today(), published: d.published, status: d.status, files,
+    ...(d.url ? { url: d.url } : {}), ...(d.eur ? { eur: d.eur } : {}), ...(d.uah ? { uah: d.uah } : {}),
+    ...(d.software ? { software: d.software } : {}), ...(d.formats ? { formats: d.formats } : {}),
+    en: clean(d.en), uk: clean(d.uk) };
+  const next = clone(data); // validate before touching state
+  const idx = next.shop.items.findIndex((p) => p.slug === d.slug);
+  if (idx >= 0) next.shop.items[idx] = item; else next.shop.items.unshift(item);
+  const errors = validate(next);
+  if (errors.length) return toast(errors.join('\n'), 'error', 9000);
+  dropPostFiles(old ? old.files || [] : [], files);
+  const at = data.shop.items.findIndex((p) => p.slug === d.slug);
+  if (at >= 0) data.shop.items[at] = item; else data.shop.items.unshift(item);
+  state.draft = null;
+  renderList();
+  toast('Збережено в чернетку. Щоб картка з\'явилась на сайті, натисніть «Опублікувати».', 'ok');
+}
+
+function deleteItem() {
+  const d = state.draft;
+  const p = state.data.shop.items.find((x) => x.slug === d.slug);
+  if (!p || !confirm(`Видалити картку «${itemTitle(p)}»? Її сторінки зникнуть із сайту після публікації.`)) return;
+  const alsoFiles = (p.files || []).length > 0 && confirm('Видалити також фото цієї картки з репозиторію?\nОК — видалити, Скасувати — залишити в папці images.');
+  state.data.shop.items = state.data.shop.items.filter((x) => x.slug !== p.slug);
+  for (const f of p.files || []) {
+    if (state.pending.has(f)) { state.pending.delete(f); delete state.data.sizes[f]; }
+    else if (alsoFiles) { state.removed.add(f); delete state.data.sizes[f]; }
+  }
+  state.draft = null;
+  renderList();
+}
+
 /* ----------------------------------------------------------------- events */
 
 app.addEventListener('click', (e) => {
@@ -911,15 +1098,17 @@ app.addEventListener('click', (e) => {
     case 'img-left': if (i > 0) { const a = state.draft.imgs; [a[i - 1], a[i]] = [a[i], a[i - 1]]; renderImgs(); } break;
     case 'img-right': { const a = state.draft.imgs; if (i < a.length - 1) { [a[i + 1], a[i]] = [a[i], a[i + 1]]; renderImgs(); } break; }
     case 'img-del': state.draft.imgs.splice(i, 1); renderImgs(); break;
-    case 'save-draft': (state.draft && state.draft.kind === 'post' ? savePost : saveDraft)(); break;
+    case 'save-draft': ({ post: savePost, item: saveItem }[state.draft && state.draft.kind] || saveDraft)(); break;
     case 'cancel-edit': state.draft = null; renderList(); break;
-    case 'delete': (state.draft && state.draft.kind === 'post' ? deletePost : deleteProject)(); break;
+    case 'delete': ({ post: deletePost, item: deleteItem }[state.draft && state.draft.kind] || deleteProject)(); break;
     case 'section': state.section = b.dataset.section; state.draft = null; renderList(); break;
     case 'svc-add': state.data.services.items.push(newService()); renderList(); break;
     case 'svc-del': if (confirm('Видалити цю послугу зі сторінки?')) { state.data.services.items.splice(i, 1); renderList(); } break;
     case 'svc-up': case 'svc-down': { const a = state.data.services.items; const j = i + (act === 'svc-up' ? -1 : 1); if (j >= 0 && j < a.length) { [a[i], a[j]] = [a[j], a[i]]; renderList(); } break; }
     case 'post-new': state.draft = newPostDraft(); state.isNew = true; renderPostEditor(); break;
     case 'post-edit': state.draft = postDraftFrom(state.data.posts.find((x) => x.slug === slug)); state.isNew = false; renderPostEditor(); break;
+    case 'item-new': state.draft = newItemDraft(); state.isNew = true; renderItemEditor(); break;
+    case 'item-edit': state.draft = itemDraftFrom(state.data.shop.items.find((x) => x.slug === slug)); state.isNew = false; renderItemEditor(); break;
     default: break;
   }
 });

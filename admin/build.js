@@ -21,6 +21,7 @@ const CAT = {
   uk: { interior: "Візуалізація інтер'єру", exterior: "Візуалізація екстер'єру", automotive: 'Автомобільний CGI' },
 };
 export const CATEGORY_LABELS = CAT.uk;
+export const SHOP_LABELS = { free: 'Безкоштовно', link: 'За посиланням', soon: 'Скоро на сайті' };
 
 const T = {
   en: {
@@ -415,6 +416,21 @@ export function validate(data) {
     if (!(p.en && p.en.title) && !(p.uk && p.uk.title)) errors.push(`допис «${p.slug}»: потрібен заголовок`);
     if (!(p.en && p.en.body) && !(p.uk && p.uk.body)) errors.push(`допис «${p.slug}»: потрібен текст`);
   }
+  const sslugs = new Set();
+  for (const p of (data.shop && data.shop.items) || []) {
+    const n = `набір «${p.slug}»`;
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(p.slug || '')) errors.push(`${n}: адреса має бути з латинських літер, цифр і дефісів`);
+    if (sslugs.has(p.slug)) errors.push(`${n}: така адреса вже є`);
+    sslugs.add(p.slug);
+    if (!SHOP_STATUSES.includes(p.status)) errors.push(`${n}: оберіть статус`);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(p.date || '')) errors.push(`${n}: вкажіть дату`);
+    if (!(p.en && p.en.title) && !(p.uk && p.uk.title)) errors.push(`${n}: потрібна назва`);
+    if ((p.status === 'free' || p.status === 'link') && !/^https?:\/\/[^\s"'<>]+$/i.test(p.url || '')) errors.push(`${n}: вкажіть посилання, що починається з https://`);
+    for (const cur of ['eur', 'uah']) {
+      const v = p[cur];
+      if (v !== '' && v != null && !(isFinite(Number(String(v).replace(/\s/g, '').replace(',', '.'))) && Number(String(v).replace(/\s/g, '').replace(',', '.')) >= 0)) errors.push(`${n}: ціна (${cur === 'eur' ? '€' : 'грн'}) має бути числом`);
+    }
+  }
   for (const k of ['home', 'gallery']) {
     for (const s of (data.order && data.order[k]) || []) {
       if (!slugs.has(s)) errors.push(`порядок «${k}»: невідомий проєкт «${s}»`);
@@ -425,7 +441,7 @@ export function validate(data) {
 
 /* ------------------------------------------- services, blog, shared page shell */
 
-let NAV_FLAGS = { services: false, blog: false };
+let NAV_FLAGS = { services: false, blog: false, shop: false };
 
 const X = {
   en: {
@@ -442,6 +458,16 @@ const X = {
     blog_meta_desc: 'Behind-the-scenes breakdowns, practical advice for clients and notes on 3D architectural visualization.',
     blog_empty: 'The first articles are coming soon.', read: 'Read article', all_posts: 'All articles',
     post_cta1: 'Have a project in mind?', post_cta2: 'Tell us about it.',
+    shop: 'Shop', shop_eyebrow: 'Shop', shop_h1: 'Shop',
+    shop_lead: 'Ready-made sets and resources from our studio: free downloads, paid sets and what is coming next.',
+    shop_meta_title: 'Shop: Sets & Resources for 3D Artists | WhiteLakeViz',
+    shop_meta_desc: 'Ready-made sets and resources from WhiteLakeViz: free downloads, paid sets and upcoming releases.',
+    shop_empty: 'The first sets are coming soon.', all_items: 'All sets',
+    f_all: 'All', f_free: 'Free', f_link: 'Available', f_soon: 'Coming soon', f_none: 'Nothing found. Try another search or filter.',
+    tags_h: 'Tags', formats_h: 'Available formats', search_ph: 'Search sets', close: 'Close', prev: 'Previous set', next: 'Next set',
+    st_free: 'Free', st_link: 'Available', st_soon: 'Coming soon',
+    btn_free: 'Download free', btn_link: 'Get this set', btn_soon: 'Coming soon', details: 'Details',
+    shop_cta1: 'Need something made for your project?', shop_cta2: 'Tell us about it.',
   },
   uk: {
     services: 'Послуги', blog: 'Блог',
@@ -457,6 +483,16 @@ const X = {
     blog_meta_desc: 'Розбори проєктів, практичні поради для клієнтів і нотатки про архітектурну 3D-візуалізацію.',
     blog_empty: 'Перші статті з\'являться найближчим часом.', read: 'Читати статтю', all_posts: 'Усі статті',
     post_cta1: 'Маєте проєкт?', post_cta2: 'Розкажіть про нього.',
+    shop: 'Магазин', shop_eyebrow: 'Магазин', shop_h1: 'Магазин',
+    shop_lead: 'Готові набори та ресурси від нашої студії: безкоштовні завантаження, платні набори й те, що з\'явиться далі.',
+    shop_meta_title: 'Магазин: набори та ресурси для 3D-художників | WhiteLakeViz',
+    shop_meta_desc: 'Готові набори та ресурси від WhiteLakeViz: безкоштовні завантаження, платні набори й майбутні релізи.',
+    shop_empty: 'Перші набори з\'являться найближчим часом.', all_items: 'Усі набори',
+    f_all: 'Усі', f_free: 'Безкоштовні', f_link: 'Доступні', f_soon: 'Скоро', f_none: 'Нічого не знайдено. Спробуйте інший запит або фільтр.',
+    tags_h: 'Теги', formats_h: 'Доступні формати', search_ph: 'Пошук по наборах', close: 'Закрити', prev: 'Попередній набір', next: 'Наступний набір',
+    st_free: 'Безкоштовно', st_link: 'Доступно', st_soon: 'Скоро на сайті',
+    btn_free: 'Завантажити безкоштовно', btn_link: 'Отримати набір', btn_soon: 'Скоро', details: 'Докладніше',
+    shop_cta1: 'Потрібне щось під ваш проєкт?', shop_cta2: 'Розкажіть про нього.',
   },
 };
 
@@ -467,12 +503,18 @@ const livePosts = (data) => (data.posts || []).filter((p) => p.published !== fal
 const svcPath = (lang) => (lang === 'uk' ? '/ua/services.html' : '/services.html');
 const blogPath = (lang) => (lang === 'uk' ? '/ua/blog.html' : '/blog.html');
 const postPath = (p, lang) => `${lang === 'uk' ? '/ua' : ''}/blog/${p.slug}.html`;
+const shopPath = (lang) => (lang === 'uk' ? '/ua/shop.html' : '/shop.html');
+const itemPath = (p, lang) => `${lang === 'uk' ? '/ua' : ''}/shop/${p.slug}.html`;
+export const SHOP_STATUSES = ['free', 'link', 'soon'];
+const liveShop = (data) => ((data.shop && data.shop.items) || []).filter((p) => p.published !== false && p.slug)
+  .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
 
 function extraNav(lang) {
   const x = X[lang];
   const li = [];
   if (NAV_FLAGS.services) li.push(`<li><a href="${svcPath(lang)}">${x.services}</a></li>`);
   if (NAV_FLAGS.blog) li.push(`<li><a href="${blogPath(lang)}">${x.blog}</a></li>`);
+  if (NAV_FLAGS.shop) li.push(`<li><a href="${shopPath(lang)}">${x.shop}</a></li>`);
   return li.join('\n    ');
 }
 
@@ -751,6 +793,343 @@ ${rest.length ? `      <div class="project_frames img_container post_images">\n 
   });
 }
 
+/* ------------------------------------------------------------------ shop */
+
+function moneyOf(p, lang) {
+  const raw = lang === 'uk' ? p.uah : p.eur;
+  const n = Number(String(raw ?? '').replace(/\s/g, '').replace(',', '.'));
+  return raw !== '' && raw != null && isFinite(n) && n > 0 ? n : null;
+}
+
+function fmtMoney(n, lang) {
+  const num = n.toLocaleString(lang === 'uk' ? 'uk-UA' : 'en-US', { maximumFractionDigits: 2 });
+  return lang === 'uk' ? `${num} грн` : `€${num}`;
+}
+
+const stLabel = (p, lang) => X[lang]['st_' + p.status] || '';
+const btnLabel = (p, lang) => {
+  if (p[lang] && p[lang].button) return p[lang].button;
+  const store = p.status === 'link' ? storeName(p.url) : '';
+  if (store) return (lang === 'uk' ? 'Отримати на ' : 'Get on ') + store;
+  return X[lang]['btn_' + p.status] || '';
+};
+/* Google Drive share link of a single file -> direct download link; everything else is used as typed */
+export function downloadUrl(u) {
+  const m = String(u || '').match(/^https?:\/\/(?:drive|docs)\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^#]*&)?id=)([\w-]{10,})/i);
+  return m ? `https://drive.google.com/uc?export=download&id=${m[1]}` : String(u || '');
+}
+
+const STORES = { 'cgtrader.com': 'CGTrader', 'gumroad.com': 'Gumroad', 'artstation.com': 'ArtStation', 'payhip.com': 'Payhip', 'itch.io': 'itch.io', 'sellfy.com': 'Sellfy', 'boosty.to': 'Boosty', 'patreon.com': 'Patreon', 'turbosquid.com': 'TurboSquid', 'fab.com': 'Fab', '3ddd.ru': '3ddd', 'greatcatalog.net': 'The Great Catalog' };
+function storeName(u) {
+  try {
+    const host = new URL(u).hostname.toLowerCase().replace(/^www\./, '');
+    const key = Object.keys(STORES).find((k) => host === k || host.endsWith('.' + k));
+    return key ? STORES[key] : '';
+  } catch { return ''; }
+}
+const extHref = (p) => esc(p.status === 'free' ? downloadUrl(p.url) : p.url);
+
+function shopPrice(p, lang) {
+  if (p.status === 'free') return X[lang].st_free;
+  if (p.status === 'soon') return '';
+  const n = moneyOf(p, lang);
+  return n ? fmtMoney(n, lang) : '';
+}
+
+function actionHtml(p, lang, cls = 'btn') {
+  if (p.status === 'soon') return `<span class="shop_soon">${esc(X[lang].btn_soon)}</span>`;
+  return `<a class="${cls}" href="${extHref(p)}" target="_blank" rel="noopener noreferrer nofollow">${esc(btnLabel(p, lang))}</a>`;
+}
+
+const csv = (s, max = 30) => String(s || '').split(/[,;\n]/).map((t) => t.trim().slice(0, 40)).filter(Boolean).slice(0, max);
+
+const SVG = (inner) => `<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+const ICON = {
+  software: SVG('<path d="M8 1.5 14 4.7v6.6L8 14.5 2 11.3V4.7z"/><path d="M2 4.7 8 8l6-3.3M8 8v6.5"/>'),
+  specs: SVG('<path d="M2 11 11 2l3 3-9 9z"/><path d="M5 8l1.5 1.5M7 6l1.5 1.5M9 4l1.5 1.5"/>'),
+  license: SVG('<path d="M8 1.5 13.5 3.5v4c0 3.2-2.3 5.6-5.5 7-3.2-1.4-5.5-3.8-5.5-7v-4z"/>'),
+  search: SVG('<circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/>'),
+  close: SVG('<path d="M3 3l10 10M13 3 3 13"/>'),
+  prev: SVG('<path d="M10 3 5 8l5 5"/>'),
+  next: SVG('<path d="M6 3l5 5-5 5"/>'),
+};
+
+function metaOf(p, lang) {
+  return {
+    kind: pick(p, lang, 'kind'), software: String(p.software || '').trim(), specs: pick(p, lang, 'specs'),
+    license: pick(p, lang, 'license'), tags: csv(pick(p, lang, 'tags')), formats: csv(p.formats),
+  };
+}
+
+/* meta rows + tags + formats: used on the set page (the pop-up fills the same structure from JSON) */
+function metaHtml(m, x) {
+  const rows = ['software', 'specs', 'license'].filter((k) => m[k]).map((k) => `<li>${ICON[k]}<span>${esc(m[k])}</span></li>`).join('');
+  const group = (h, arr) => (arr.length ? `<div class="set_group"><p class="set_h">${h}</p><ul class="set_tags">${arr.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '');
+  return `${rows ? `<ul class="set_meta">${rows}</ul>` : ''}${group(x.tags_h, m.tags)}${group(x.formats_h, m.formats)}`;
+}
+
+/* everything the pop-up needs for one set, in the page language */
+function modalData(data, p, lang) {
+  const m = metaOf(p, lang);
+  return {
+    slug: p.slug, status: p.status, statusLabel: stLabel(p, lang), href: itemPath(p, lang),
+    title: pick(p, lang, 'title'), lead: pick(p, lang, 'lead'),
+    kind: m.kind, software: m.software, specs: m.specs, license: m.license, tags: m.tags, formats: m.formats,
+    price: p.status === 'link' ? shopPrice(p, lang) : '',
+    url: p.status === 'soon' ? '' : (p.status === 'free' ? downloadUrl(p.url) : p.url),
+    button: p.status === 'soon' ? X[lang].btn_soon : btnLabel(p, lang),
+    images: (p.files || []).map((f) => { const s = data.sizes && data.sizes[f]; return { src: `/images/${f}`, w: s ? s[0] : 0, h: s ? s[1] : 0 }; }),
+  };
+}
+
+const jsonForScript = (o) => JSON.stringify(o).replace(/</g, '\\u003c').replace(new RegExp(String.fromCharCode(0x2028), 'g'), '\\u2028').replace(new RegExp(String.fromCharCode(0x2029), 'g'), '\\u2029');
+
+const SHOP_JS = String.raw`(function () {
+  var dataEl = document.getElementById('shop-data');
+  var list = document.querySelector('.shop_list');
+  if (!dataEl || !list) return;
+  var items = JSON.parse(dataEl.textContent), by = {};
+  items.forEach(function (it) { by[it.slug] = it; });
+  var cards = [].slice.call(list.querySelectorAll('.shop_card'));
+  var q = document.getElementById('shop-q'), none = document.getElementById('shop-none');
+  var chips = [].slice.call(document.querySelectorAll('.shop_filters button'));
+  var filter = 'all';
+  function apply() {
+    var s = q ? q.value.trim().toLowerCase() : '', n = 0;
+    cards.forEach(function (c) {
+      var ok = (filter === 'all' || c.getAttribute('data-status') === filter) && (!s || c.getAttribute('data-search').indexOf(s) > -1);
+      c.hidden = !ok; if (ok) n++;
+    });
+    if (none) none.hidden = n > 0;
+  }
+  chips.forEach(function (b) {
+    b.addEventListener('click', function () {
+      filter = b.getAttribute('data-f');
+      chips.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      apply();
+    });
+  });
+  if (q) q.addEventListener('input', apply);
+
+  var dlg = document.getElementById('shop-modal');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  function $(s) { return dlg.querySelector(s); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  var cur = null;
+
+  function setImage(it, i) {
+    var stage = $('.sm_stage'), im = it.images[i];
+    stage.textContent = '';
+    if (!im) { stage.appendChild(el('span', 'sm_ph')); return; }
+    var img = el('img'); img.src = im.src; img.alt = it.title + (i ? ' (' + (i + 1) + ')' : '');
+    if (im.w && im.h) { img.width = im.w; img.height = im.h; }
+    stage.appendChild(img);
+    [].forEach.call($('.sm_thumbs').children, function (t, k) { t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  function fillTags(sel, arr) {
+    var ul = $(sel); ul.textContent = '';
+    arr.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+    ul.parentNode.hidden = !arr.length;
+  }
+  function show(it) {
+    cur = it;
+    dlg.setAttribute('data-status', it.status);
+    $('.sm_kind').textContent = it.kind; $('.sm_kind').hidden = !it.kind;
+    $('.sm_title').textContent = it.title;
+    $('.sm_state').textContent = it.statusLabel;
+    var lead = $('.sm_lead'); lead.textContent = '';
+    String(it.lead || '').split(/\n{2,}/).forEach(function (t) { t = t.trim(); if (t) lead.appendChild(el('p', null, t)); });
+    ['software', 'specs', 'license'].forEach(function (k) {
+      var li = $('[data-k="' + k + '"]'); li.querySelector('span').textContent = it[k]; li.hidden = !it[k];
+    });
+    $('.sm_meta').hidden = !(it.software || it.specs || it.license);
+    fillTags('.sm_tags', it.tags); fillTags('.sm_formats', it.formats);
+    var th = $('.sm_thumbs'); th.textContent = '';
+    if (it.images.length > 1) {
+      it.images.forEach(function (im, i) {
+        var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', String(i + 1));
+        var t = el('img'); t.src = im.src; t.alt = ''; t.loading = 'lazy'; b.appendChild(t);
+        b.addEventListener('click', function () { setImage(it, i); });
+        th.appendChild(b);
+      });
+    }
+    th.hidden = it.images.length < 2;
+    setImage(it, 0);
+    var a = $('.sm_cta'), soon = $('.sm_soon');
+    a.hidden = !it.url; soon.hidden = !!it.url;
+    if (it.url) { a.href = it.url; a.textContent = it.button; } else { soon.textContent = it.button; }
+    $('.sm_price').textContent = it.price; $('.sm_price').hidden = !it.price;
+    $('.sm_body').scrollTop = 0;
+  }
+  function open(slug) {
+    var it = by[slug]; if (!it) return;
+    show(it);
+    if (!dlg.open) { dlg.showModal(); document.documentElement.classList.add('has_modal'); }
+    try { history.replaceState(null, '', '#' + it.slug); } catch (e) {}
+  }
+  function step(d) {
+    var vis = cards.filter(function (c) { return !c.hidden; });
+    var i = vis.map(function (c) { return c.getAttribute('data-slug'); }).indexOf(cur && cur.slug);
+    if (vis.length > 1 && i > -1) open(vis[(i + d + vis.length) % vis.length].getAttribute('data-slug'));
+  }
+  list.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest('a.shop_open'); if (!a) return;
+    e.preventDefault(); open(a.closest('.shop_card').getAttribute('data-slug'));
+  });
+  $('.sm_close').addEventListener('click', function () { dlg.close(); });
+  $('.sm_prev').addEventListener('click', function () { step(-1); });
+  $('.sm_next').addEventListener('click', function () { step(1); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+  });
+  dlg.addEventListener('close', function () {
+    document.documentElement.classList.remove('has_modal');
+    if (location.hash) { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
+  });
+  function fromHash() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    if (h && by[h]) open(h); else if (!h && dlg.open) dlg.close();
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+})();`;
+
+function modalShell(x) {
+  const row = (k) => `<li data-k="${k}" hidden>${ICON[k]}<span></span></li>`;
+  return `      <dialog class="shop_modal" id="shop-modal" aria-labelledby="sm-title">
+        <div class="sm_wrap">
+          <button type="button" class="sm_close" aria-label="${esc(x.close)}">${ICON.close}</button>
+          <div class="sm_media">
+            <div class="sm_stage"></div>
+            <button type="button" class="sm_nav sm_prev" aria-label="${esc(x.prev)}">${ICON.prev}</button>
+            <button type="button" class="sm_nav sm_next" aria-label="${esc(x.next)}">${ICON.next}</button>
+            <div class="sm_thumbs" hidden></div>
+          </div>
+          <div class="sm_body">
+            <p class="sm_kind" hidden></p>
+            <p class="sm_title" id="sm-title" role="heading" aria-level="2"></p>
+            <p class="sm_status"><span class="sm_state"></span></p>
+            <div class="sm_lead"></div>
+            <ul class="set_meta sm_meta" hidden>${row('software')}${row('specs')}${row('license')}</ul>
+            <div class="set_group" hidden><p class="set_h">${x.tags_h}</p><ul class="set_tags sm_tags"></ul></div>
+            <div class="set_group" hidden><p class="set_h">${x.formats_h}</p><ul class="set_tags sm_formats"></ul></div>
+            <div class="sm_buy">
+              <span class="sm_price" hidden></span>
+              <a class="sm_cta" href="#" target="_blank" rel="noopener noreferrer nofollow" hidden></a>
+              <span class="sm_soon" hidden></span>
+            </div>
+          </div>
+        </div>
+      </dialog>`;
+}
+
+function buildShopIndex(data, lang, chunks, items) {
+  const x = X[lang];
+  const root = lang === 'uk' ? '/ua' : '';
+  const url = BASE + shopPath(lang);
+  const cards = items.map((p, i) => {
+    const cover = (p.files || [])[0];
+    const title = pick(p, lang, 'title');
+    const m = metaOf(p, lang);
+    const media = cover
+      ? `<img src="/images/${esc(cover)}" alt="" ${dims(data, cover)}${i < 5 ? 'loading="eager"' : 'loading="lazy" decoding="async"'}>`
+      : '<span class="shop_ph" aria-hidden="true"></span>';
+    const price = p.status === 'free' ? x.st_free : p.status === 'soon' ? x.st_soon : shopPrice(p, lang);
+    const search = [title, m.kind, m.software, ...m.tags, ...m.formats].join(' ').toLowerCase();
+    return `        <li class="shop_card is_${p.status}" data-slug="${esc(p.slug)}" data-status="${p.status}" data-search="${esc(search)}">
+          <a class="shop_media shop_open" href="${itemPath(p, lang)}" tabindex="-1" aria-hidden="true">${media}</a>
+          <p class="shop_name"><a class="shop_open" href="${itemPath(p, lang)}">${esc(title)}</a></p>
+          <p class="shop_sub"><span>${esc(m.kind || stLabel(p, lang))}</span>${price ? `<span class="shop_pr">${esc(price)}</span>` : ''}</p>
+        </li>`;
+  }).join('\n');
+  const present = ['free', 'link', 'soon'].filter((s) => items.some((p) => p.status === s));
+  const filters = items.length > 1 && present.length > 1
+    ? `<div class="shop_filters" role="group" aria-label="${esc(x.shop)}">
+          <button type="button" data-f="all" aria-pressed="true">${x.f_all}<span>${items.length}</span></button>
+${present.map((s) => `          <button type="button" data-f="${s}" aria-pressed="false">${x['f_' + s]}<span>${items.filter((p) => p.status === s).length}</span></button>`).join('\n')}
+        </div>` : '';
+  const search = items.length >= 6
+    ? `<label class="shop_search">${ICON.search}<input id="shop-q" type="search" placeholder="${esc(x.search_ph)}" aria-label="${esc(x.search_ph)}" autocomplete="off"></label>` : '';
+  const bar = search || filters ? `      <div class="shop_bar">\n        ${search}\n        ${filters}\n      </div>\n` : '';
+  const main = `    <main class="project page_shop">
+      <p class="crumbs"><a href="${root}/">${T[lang].home}</a><span>/</span>${x.shop}</p>
+      <h1 class="project_title">${x.shop_h1}</h1>
+      <p class="project_lead">${x.shop_lead}</p>
+${items.length ? `${bar}      <p class="shop_none" id="shop-none" hidden>${x.f_none}</p>
+      <ul class="shop_list">
+${cards}
+      </ul>
+${modalShell(x)}
+      <script type="application/json" id="shop-data">${jsonForScript(items.map((p) => modalData(data, p, lang)))}</script>
+      <script>${SHOP_JS}</script>
+` : `      <p class="project_lead">${x.shop_empty}</p>
+`}    </main>`;
+  const ld = {
+    '@context': 'https://schema.org',
+    '@graph': [orgLd(), crumbsLd(lang, [[x.shop, url]]), {
+      '@type': 'CollectionPage', name: x.shop_h1, url, inLanguage: lang, publisher: { '@id': `${BASE}/#organization` },
+    }],
+  };
+  const firstCover = items.map((p) => (p.files || [])[0]).find(Boolean);
+  return shell({
+    lang, title: x.shop_meta_title, desc: x.shop_meta_desc, canonical: url,
+    enUrl: BASE + shopPath('en'), ukUrl: BASE + shopPath('uk'), ld, ogImage: firstCover || 'bedroom_2_fin.webp',
+    swEn: shopPath('en'), swUk: shopPath('uk'), main, chunks, cta: [x.shop_cta1, x.shop_cta2],
+    robots: items.length ? undefined : 'noindex, follow',
+  });
+}
+
+function buildShopItem(data, p, lang, chunks) {
+  const x = X[lang];
+  const root = lang === 'uk' ? '/ua' : '';
+  const url = BASE + itemPath(p, lang);
+  const title = pick(p, lang, 'title');
+  const lead = pick(p, lang, 'lead');
+  const body = pick(p, lang, 'body');
+  const files = p.files || [];
+  const price = shopPrice(p, lang);
+  const m = metaOf(p, lang);
+  const fig = (f, n) => `<figure><img src="/images/${esc(f)}" alt="${esc(title)}${n ? ` (${n + 1})` : ''}" ${dims(data, f)}${n ? 'loading="lazy" decoding="async"' : 'loading="eager" fetchpriority="high"'}></figure>`;
+  const rest = files.slice(1).map((f, i) => fig(f, i + 1));
+  const leadHtml = String(lead).split(/\n{2,}/).map((s) => s.trim()).filter(Boolean).map((s) => `<p class="project_lead">${esc(s)}</p>`).join('\n        ');
+  const main = `    <main class="project page_item is_${p.status}">
+      <p class="crumbs"><a href="${root}/">${T[lang].home}</a><span>/</span><a href="${shopPath(lang)}">${x.shop}</a><span>/</span>${esc(title)}</p>
+      <div class="item_top${files[0] ? '' : ' no_cover'}">
+        <div class="item_info">
+          <p class="shop_status">${esc(m.kind ? `${m.kind} · ${stLabel(p, lang)}` : stLabel(p, lang))}</p>
+          <h1 class="project_title">${esc(title)}</h1>
+        ${leadHtml}
+          ${metaHtml(m, x)}
+          <div class="shop_buy">
+            ${price && p.status === 'link' ? `<span class="shop_price">${esc(price)}</span>` : ''}
+            ${actionHtml(p, lang)}
+          </div>
+        </div>
+${files[0] ? `        <div class="item_cover">${fig(files[0], 0)}</div>\n` : ''}      </div>
+${body ? `      <div class="post_body">\n      ${renderBody(body)}\n      </div>\n` : ''}${rest.length ? `      <div class="project_frames img_container post_images">\n        ${rest.join('\n        ')}\n      </div>\n` : ''}      <nav class="project_nav" aria-label="${esc(x.all_items)}">
+        <a href="${shopPath(lang)}">&larr; ${esc(x.all_items)}</a>
+      </nav>
+    </main>`;
+  const cur = lang === 'uk' ? 'UAH' : 'EUR';
+  const amount = p.status === 'free' ? 0 : moneyOf(p, lang);
+  const product = {
+    '@type': 'Product', '@id': `${url}#product`, name: title, description: metaDesc(lead || body), url, inLanguage: lang,
+    brand: { '@id': `${BASE}/#organization` },
+    ...(files[0] ? { image: `${BASE}/images/${files[0]}` } : {}),
+    ...(m.kind ? { category: m.kind } : {}),
+    ...(p.status !== 'soon' && amount != null ? { offers: { '@type': 'Offer', price: amount, priceCurrency: cur, url: p.status === 'free' ? downloadUrl(p.url) : p.url, availability: 'https://schema.org/InStock' } } : {}),
+  };
+  const ld = { '@context': 'https://schema.org', '@graph': [orgLd(), crumbsLd(lang, [[x.shop, BASE + shopPath(lang)], [title, url]]), product] };
+  return shell({
+    lang, title: `${title} | WhiteLakeViz`, desc: metaDesc(lead || body), canonical: url,
+    enUrl: BASE + itemPath(p, 'en'), ukUrl: BASE + itemPath(p, 'uk'), ld, ogImage: files[0] || 'bedroom_2_fin.webp',
+    swEn: itemPath(p, 'en'), swUk: itemPath(p, 'uk'), main, chunks, cta: [x.shop_cta1, x.shop_cta2],
+  });
+}
+
 /* ------------------------------------------------------------------ main entry */
 
 /**
@@ -766,7 +1145,8 @@ export function buildSite(data, files) {
   const out = {};
   const generated = new Set();
   const posts = livePosts(data);
-  NAV_FLAGS = { services: servicesOn(data), blog: posts.length > 0 };
+  const shopItems = liveShop(data);
+  NAV_FLAGS = { services: servicesOn(data), blog: posts.length > 0, shop: shopItems.length > 0 };
 
   const chunks = {
     en: sharedChunks(files['gallery.html']),
@@ -808,6 +1188,15 @@ export function buildSite(data, files) {
     const newest = posts[0].updated || posts[0].date;
     extra.push([{ en: blogPath('en'), uk: blogPath('uk') }, newest]);
     for (const p of posts) extra.push([{ en: postPath(p, 'en'), uk: postPath(p, 'uk') }, p.updated || p.date]);
+  }
+  for (const lang of ['en', 'uk']) {
+    const path = shopPath(lang).slice(1);
+    out[path] = buildShopIndex(data, lang, chunks[lang], shopItems); generated.add(path);
+    for (const p of shopItems) { const ip = itemPath(p, lang).slice(1); out[ip] = buildShopItem(data, p, lang, chunks[lang]); generated.add(ip); }
+  }
+  if (shopItems.length) {
+    extra.push([{ en: shopPath('en'), uk: shopPath('uk') }, shopItems[0].updated || shopItems[0].date]);
+    for (const p of shopItems) extra.push([{ en: itemPath(p, 'en'), uk: itemPath(p, 'uk') }, p.updated || p.date]);
   }
   out['sitemap.xml'] = sitemap(data, list, extra);
   return { out, generated };
