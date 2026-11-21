@@ -290,10 +290,6 @@
     "blog-how-to-prepare-a-brief-1.webp": [
       1672,
       941
-    ],
-    "shop-wood-set-vol-1-1.webp": [
-      2400,
-      1312
     ]
   },
   "services": {
@@ -411,33 +407,6 @@
     }
   ],
   "shop": {
-    "items": [
-      {
-        "slug": "wood-set-vol-1",
-        "date": "2026-11-21",
-        "updated": "2026-11-21",
-        "published": true,
-        "status": "free",
-        "files": [
-          "shop-wood-set-vol-1-1.webp"
-        ],
-        "url": "https://drive.google.com/drive/folders/1rWFHQbGbSF78sb7O87K-94o-X09ibOWv?usp=sharing",
-        "formats": "jpeg",
-        "en": {
-          "title": "Wood Set Vol 1",
-          "lead": "test",
-          "kind": "Wood",
-          "specs": "2мх2м",
-          "license": "Royalty-free"
-        },
-        "uk": {
-          "title": "Wood Set Vol 1",
-          "lead": "test",
-          "kind": "Деревина",
-          "specs": "2мх2м",
-          "license": "Royalty-free"
-        }
-      }
-    ]
+    "items": []
   }
 }
