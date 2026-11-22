@@ -302,6 +302,18 @@
     "shop-01-fine-lime-plaster-3.webp": [
       2048,
       2048
+    ],
+    "shop-02-venetian-plaster-matte-1.webp": [
+      2000,
+      3000
+    ],
+    "shop-02-venetian-plaster-matte-2.webp": [
+      2048,
+      2048
+    ],
+    "shop-02-venetian-plaster-matte-3.webp": [
+      2048,
+      2048
     ]
   },
   "services": {
@@ -420,6 +432,36 @@
   ],
   "shop": {
     "items": [
+      {
+        "slug": "02-venetian-plaster-matte",
+        "date": "2026-11-22",
+        "updated": "2026-11-22",
+        "published": true,
+        "status": "free",
+        "files": [
+          "shop-02-venetian-plaster-matte-1.webp",
+          "shop-02-venetian-plaster-matte-2.webp",
+          "shop-02-venetian-plaster-matte-3.webp"
+        ],
+        "url": "https://drive.google.com/drive/folders/19X7JA0OPKGE4-rFVjZ4deNIaFtOWxvs3?usp=sharing",
+        "formats": "png",
+        "en": {
+          "title": "02 Venetian Plaster Matte",
+          "lead": "Crafted with subtle trowel movements and natural tonal variations, this warm beige Venetian plaster brings an artisanal, handcrafted feel to interior walls. Its soft matte finish diffuses light gently, making it a go-to surface for organic modern, Japandi, and Mediterranean spaces.",
+          "kind": "Plaster",
+          "specs": "1,5m x 1,5m",
+          "license": "Royalty-free",
+          "tags": "venetian plaster, matte plaster, decorative stucco, beige wall, textured plaster, trowel finish, seamless texture, pbr material, architectural visualization, archviz, japandi, mediterranean interior, organic modern, wall covering, 3d material, corona renderer, v-ray, blender"
+        },
+        "uk": {
+          "title": "02 Матова Венеціанська Штукатурка",
+          "lead": "Створена з делікатними слідами шпателя та природними переходами відтінків, ця тепла бежева венеціанська штукатурка додає стінам фактурності ручної роботи. М’який матовий фініш ніжно розсіює світло, тому матеріал чудово підходить для інтер'єрів у стилі джапанді, середземноморському або сучасному органічному стилі.",
+          "kind": "Штукатурка",
+          "specs": "1,5 м х 1,5 м",
+          "license": "Вільна",
+          "tags": "венеціанська штукатурка, матова штукатурка, декоративна штукатурка, бежева стіна, фактурна штукатурка, сліди шпателя, безшовна текстура, pbr матеріал, архітектурна візуалізація, джапанді, середземноморський інтер'єр, оздоблення стін, 3d матеріал, текстура стіни"
+        }
+      },
       {
         "slug": "01-fine-lime-plaster",
         "date": "2026-11-22",
