@@ -290,6 +290,18 @@
     "blog-how-to-prepare-a-brief-1.webp": [
       1672,
       941
+    ],
+    "shop-01-fine-lime-plaster-1.webp": [
+      2000,
+      3000
+    ],
+    "shop-01-fine-lime-plaster-2.webp": [
+      2048,
+      2048
+    ],
+    "shop-01-fine-lime-plaster-3.webp": [
+      2048,
+      2048
     ]
   },
   "services": {
@@ -407,6 +419,37 @@
     }
   ],
   "shop": {
-    "items": []
+    "items": [
+      {
+        "slug": "01-fine-lime-plaster",
+        "date": "2026-11-22",
+        "updated": "2026-11-22",
+        "published": true,
+        "status": "free",
+        "files": [
+          "shop-01-fine-lime-plaster-1.webp",
+          "shop-01-fine-lime-plaster-2.webp",
+          "shop-01-fine-lime-plaster-3.webp"
+        ],
+        "url": "https://drive.google.com/drive/folders/1_9jdTtohTAgfphNWBkCi3v-VKtu-jTfa?usp=sharing",
+        "formats": "png",
+        "en": {
+          "title": "01 Fine Lime Plaster",
+          "lead": "Fine Lime Plaster — Seamless PBR material featuring a delicate, finely grained mineral texture in a warm off-white tone. Ideal for realistic architectural visualization and minimalist, wabi-sabi, or modern interior walls.",
+          "kind": "Plaster",
+          "specs": "1,5m x 1,5m",
+          "license": "Royalty-free",
+          "tags": "ime plaster, fine plaster, stucco, wall texture, seamless texture, pbr material, architectural visualization, archviz, interior wall, mineral plaster, decorative plaster, off-white wall, matte surface, wabi-sabi, minimalist interior, 3d material, corona renderer, v-ray, blender"
+        },
+        "uk": {
+          "title": "01 Вапняна Штукатурка",
+          "lead": "Дрібнозерниста вапняна штукатурка — безшовний PBR-матеріал із делікатною дрібнозернистою мінеральною текстурою у теплому молочно-білому відтінку. Ідеально підходить для фотореалістичної архітектурної візуалізації та стін у сучасних мінімалістичних або вабі-сабі інтер'єрах.",
+          "kind": "Штукатурка",
+          "specs": "1,5 м х 1,5 м",
+          "license": "Вільна",
+          "tags": "вапняна штукатурка, дрібнозерниста штукатурка, декоративна штукатурка, текстура стіни, безшовна текстура, pbr матеріал, архітектурна візуалізація, інтер'єрна стіна, мінеральна штукатурка, молочно-біла стіна, матова поверхня, вабі-сабі, мінімалістичний інтер'єр, 3d матеріал, оздоблення стін"
+        }
+      }
+    ]
   }
 }
