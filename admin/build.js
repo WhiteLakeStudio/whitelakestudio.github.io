@@ -464,7 +464,7 @@ const X = {
     shop_meta_desc: 'Ready-made sets and resources from WhiteLakeViz: free downloads, paid sets and upcoming releases.',
     shop_empty: 'The first sets are coming soon.', all_items: 'All sets',
     f_all: 'All', f_free: 'Free', f_link: 'Available', f_soon: 'Coming soon', f_none: 'Nothing found. Try another search or filter.',
-    tags_h: 'Tags', formats_h: 'Available formats', search_ph: 'Search sets', close: 'Close', prev: 'Previous set', next: 'Next set',
+    tags_h: 'Tags', formats_h: 'Available formats', search_ph: 'Search sets', close: 'Close', prev: 'Previous image', next: 'Next image',
     st_free: 'Free', st_link: 'Available', st_soon: 'Coming soon',
     btn_free: 'Download free', btn_link: 'Get this set', btn_soon: 'Coming soon', details: 'Details',
     shop_cta1: 'Need something made for your project?', shop_cta2: 'Tell us about it.',
@@ -489,7 +489,7 @@ const X = {
     shop_meta_desc: 'Готові набори та ресурси від WhiteLakeViz: безкоштовні завантаження, платні набори й майбутні релізи.',
     shop_empty: 'Перші набори з\'являться найближчим часом.', all_items: 'Усі набори',
     f_all: 'Усі', f_free: 'Безкоштовні', f_link: 'Доступні', f_soon: 'Скоро', f_none: 'Нічого не знайдено. Спробуйте інший запит або фільтр.',
-    tags_h: 'Теги', formats_h: 'Доступні формати', search_ph: 'Пошук по наборах', close: 'Закрити', prev: 'Попередній набір', next: 'Наступний набір',
+    tags_h: 'Теги', formats_h: 'Доступні формати', search_ph: 'Пошук по наборах', close: 'Закрити', prev: 'Попереднє фото', next: 'Наступне фото',
     st_free: 'Безкоштовно', st_link: 'Доступно', st_soon: 'Скоро на сайті',
     btn_free: 'Завантажити безкоштовно', btn_link: 'Отримати набір', btn_soon: 'Скоро', details: 'Докладніше',
     shop_cta1: 'Потрібне щось під ваш проєкт?', shop_cta2: 'Розкажіть про нього.',
@@ -915,16 +915,21 @@ const SHOP_JS = String.raw`(function () {
   if (!dlg || typeof dlg.showModal !== 'function') return;
   function $(s) { return dlg.querySelector(s); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  var cur = null;
+  var cur = null, idx = 0;
 
   function setImage(it, i) {
     var stage = $('.sm_stage'), im = it.images[i];
+    idx = i;
     stage.textContent = '';
     if (!im) { stage.appendChild(el('span', 'sm_ph')); return; }
     var img = el('img'); img.src = im.src; img.alt = it.title + (i ? ' (' + (i + 1) + ')' : '');
     if (im.w && im.h) { img.width = im.w; img.height = im.h; }
     stage.appendChild(img);
-    [].forEach.call($('.sm_thumbs').children, function (t, k) { t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+    var th = $('.sm_thumbs');
+    [].forEach.call(th.children, function (t, k) {
+      t.setAttribute('aria-current', k === i ? 'true' : 'false');
+      if (k === i && i > 0) th.scrollLeft = t.offsetLeft - (th.clientWidth - t.offsetWidth) / 2;
+    });
   }
   function fillTags(sel, arr) {
     var ul = $(sel); ul.textContent = '';
@@ -955,6 +960,7 @@ const SHOP_JS = String.raw`(function () {
     }
     th.hidden = it.images.length < 2;
     setImage(it, 0);
+    $('.sm_prev').hidden = $('.sm_next').hidden = it.images.length < 2;
     var a = $('.sm_cta'), soon = $('.sm_soon');
     a.hidden = !it.url; soon.hidden = !!it.url;
     if (it.url) { a.href = it.url; a.textContent = it.button; } else { soon.textContent = it.button; }
@@ -968,15 +974,21 @@ const SHOP_JS = String.raw`(function () {
     try { history.replaceState(null, '', '#' + it.slug); } catch (e) {}
   }
   function step(d) {
-    var vis = cards.filter(function (c) { return !c.hidden; });
-    var i = vis.map(function (c) { return c.getAttribute('data-slug'); }).indexOf(cur && cur.slug);
-    if (vis.length > 1 && i > -1) open(vis[(i + d + vis.length) % vis.length].getAttribute('data-slug'));
+    var n = cur ? cur.images.length : 0;
+    if (n > 1) setImage(cur, (idx + d + n) % n);
   }
   list.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest('a.shop_open'); if (!a) return;
     e.preventDefault(); open(a.closest('.shop_card').getAttribute('data-slug'));
   });
+  var sx = null, stg = $('.sm_stage');
+  stg.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+  stg.addEventListener('pointerup', function (e) {
+    if (sx !== null && Math.abs(e.clientX - sx) > 40) step(e.clientX < sx ? 1 : -1);
+    sx = null;
+  });
+  stg.addEventListener('pointercancel', function () { sx = null; });
   $('.sm_close').addEventListener('click', function () { dlg.close(); });
   $('.sm_prev').addEventListener('click', function () { step(-1); });
   $('.sm_next').addEventListener('click', function () { step(1); });

@@ -77,17 +77,23 @@ a:hover{
 position: absolute;
 right: 2rem;
 top: 80px;
-height: 0;
+height: auto;
+max-height: 0;
 width: 400px;
 background: #0a0a0a;
 backdrop-filter: blur(15px);
 overflow: hidden;
 border-radius: 10px;
-transition: height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+transition: max-height 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+scrollbar-width: none;
 }
 
+.dropdown_menu::-webkit-scrollbar { display: none; }
+
 .dropdown_menu.open {
-  height: 360px;
+  max-height: calc(100vh - 100px);
+  max-height: calc(100dvh - 100px);
+  overflow-y: auto;
   z-index: 1050;
 }
 
@@ -1437,11 +1443,15 @@ html.has_modal { overflow: hidden; }
 .sm_wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); max-height: calc(100dvh - 2rem); background: #161616; border: 1px solid #2b2b2b; border-radius: 18px; overflow: hidden; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); }
 .sm_media { position: relative; display: flex; flex-direction: column; min-height: 0; background: radial-gradient(90% 80% at 50% 35%, #232323 0%, #111111 100%); }
 .sm_stage { flex: 1; min-height: 0; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; }
+.sm_stage img:hover, .sm_thumbs img:hover, .item_cover img:hover { transform: none; }
 .sm_stage img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .sm_ph { width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #4a2a8a, #15101f 70%); }
 .shop_modal[data-status="soon"] .sm_stage img { filter: grayscale(0.85) brightness(0.6); }
 .sm_nav { position: absolute; top: calc(50% - 2.4rem); display: grid; place-items: center; width: 2.6rem; height: 2.6rem; padding: 0; border: 1px solid #333333; border-radius: 50%; background: rgba(20, 20, 20, 0.7); color: #ffffff; cursor: pointer; transition: border-color 0.25s ease, background-color 0.25s ease; }
 .sm_nav:hover { border-color: #7700ff; background: rgba(40, 20, 80, 0.85); }
+.sm_nav[hidden] { display: none; }
+.sm_stage { touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.sm_stage img { -webkit-user-drag: none; }
 .sm_prev { left: 0.9rem; }
 .sm_next { right: 0.9rem; }
 .sm_thumbs { display: flex; gap: 0.5rem; padding: 0.8rem; border-top: 1px solid #222222; overflow-x: auto; }
