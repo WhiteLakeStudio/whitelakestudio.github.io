@@ -72,6 +72,48 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/blog/how-to-prepare-a-brief.html"/>
   </url>
   <url>
+    <loc>https://studiowhitelake.xyz/shop.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/shop.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/shop/02-venetian-plaster-matte.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop/02-venetian-plaster-matte.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop/02-venetian-plaster-matte.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop/02-venetian-plaster-matte.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/shop/02-venetian-plaster-matte.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop/02-venetian-plaster-matte.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop/02-venetian-plaster-matte.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop/02-venetian-plaster-matte.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/shop/01-fine-lime-plaster.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop/01-fine-lime-plaster.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop/01-fine-lime-plaster.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop/01-fine-lime-plaster.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/shop/01-fine-lime-plaster.html</loc>
+    <lastmod>2026-11-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop/01-fine-lime-plaster.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop/01-fine-lime-plaster.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop/01-fine-lime-plaster.html"/>
+  </url>
+  <url>
     <loc>https://studiowhitelake.xyz/projects/concrete-house.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/projects/concrete-house.html"/>
