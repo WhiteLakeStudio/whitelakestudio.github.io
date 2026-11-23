@@ -1,6 +1,6 @@
 /* WhiteLakeViz admin: edits data/projects.json + images through the GitHub API
    and regenerates every page in the browser (see build.js). No server needed. */
-import { buildSite, validate, slugify, CATEGORIES, CATEGORY_LABELS, SHOP_LABELS } from './build.js';
+import { buildSite, validate, slugify, CATEGORIES, CATEGORY_LABELS, SHOP_LABELS, SHOP_VERSION } from './build.js?v=5';
 
 const DEFAULT_REPO = 'whitelakestudio/whitelakestudio.github.io';
 const BRANCH = 'main';
@@ -19,6 +19,7 @@ const logoutBtn = document.getElementById('logout');
 
 const state = {
   token: '', repo: DEFAULT_REPO,
+  forceRegen: false,    // publish even without data changes (rebuilds every generated page)
   head: '', treeSha: '',
   data: null, baseJson: '',
   thumbs: new Map(),    // file name -> blob URL of just-published images (the site needs 1–2 min to show them)
@@ -45,7 +46,7 @@ function toast(text, kind = '', ms = 6000) {
 }
 
 function isDirty() {
-  return !!state.data && (JSON.stringify(state.data) !== state.baseJson || state.pending.size > 0 || state.removed.size > 0);
+  return !!state.data && (JSON.stringify(state.data) !== state.baseJson || state.pending.size > 0 || state.removed.size > 0 || state.forceRegen);
 }
 
 window.addEventListener('beforeunload', (e) => {
@@ -257,7 +258,7 @@ async function loadRepo() {
   state.data.shop.items = state.data.shop.items || [];
   state.baseJson = JSON.stringify(state.data);
   state.baseServices = JSON.stringify(state.data.services);
-  state.pending.clear(); state.removed.clear();
+  state.pending.clear(); state.removed.clear(); state.forceRegen = false;
   logoutBtn.hidden = false;
   renderList();
 }
@@ -305,6 +306,7 @@ function barState() {
   if (JSON.stringify(d) !== state.baseJson) changes.push('дані сайту');
   if (state.pending.size) changes.push(`нових фото: ${state.pending.size}`);
   if (state.removed.size) changes.push(`фото на видалення: ${state.removed.size}`);
+  if (state.forceRegen) changes.push('перегенерація сторінок сайту');
   return `<button class="primary" data-act="publish" ${dirty && !state.busy ? '' : 'disabled'}>Опублікувати на сайті</button>
     <button data-act="discard" ${dirty && !state.busy ? '' : 'disabled'}>Скасувати всі зміни</button>
     <span class="muted self-center">${dirty ? 'Неопубліковано: ' + changes.join(', ') : 'Усе опубліковано'}</span>`;
@@ -663,7 +665,7 @@ async function publish() {
     state.head = commit.sha; state.treeSha = newTree.sha;
     state.data = data; state.baseJson = JSON.stringify(data); state.baseServices = JSON.stringify(data.services);
     for (const [name, p] of state.pending) state.thumbs.set(name, (p.url ||= URL.createObjectURL(p.blob)));
-    state.pending.clear(); state.removed.clear();
+    state.pending.clear(); state.removed.clear(); state.forceRegen = false;
     state.busy = false;
     renderList();
     toast('Опубліковано! GitHub Pages оновить сайт за 1–2 хвилини (іноді трохи довше). Потім зробіть Ctrl+F5 на сайті.', 'ok', 15000);
@@ -897,8 +899,8 @@ function renderShop() {
   const thumb = (p) => { const f = p.files && p.files[0]; if (!f) return ''; const pend = state.pending.get(f); return pend ? (pend.url ||= URL.createObjectURL(pend.blob)) : (state.thumbs.get(f) || `../images/${encodeURIComponent(f)}`); };
   app.innerHTML = `
   ${sectionNav()}
-  <div class="toolbar"><h1>Магазин</h1><div class="actions"><button data-act="item-new" class="primary">+ Нова картка</button></div></div>
-  <p class="muted">Сторінки <code>/shop.html</code> та <code>/ua/shop.html</code>. Пункт «Магазин» з'явиться в меню сайту, коли буде хоча б одна опублікована картка. Статуси: <b>Безкоштовно</b> (кнопка веде на файл), <b>За посиланням</b> (кнопка веде на сторінку покупки), <b>Скоро на сайті</b> (без кнопки).</p>
+  <div class="toolbar"><h1>Магазин</h1><div class="actions"><button data-act="item-regen" title="Перебудувати всі сторінки сайту з поточного коду адмінки, навіть без змін у даних">Перегенерувати сторінки</button><button data-act="item-new" class="primary">+ Нова картка</button></div></div>
+  <p class="muted">Сторінки <code>/shop.html</code> та <code>/ua/shop.html</code>. Пункт «Магазин» з'явиться в меню сайту, коли буде хоча б одна опублікована картка. Статуси: <b>Безкоштовно</b> (кнопка веде на файл), <b>За посиланням</b> (кнопка веде на сторінку покупки), <b>Скоро на сайті</b> (без кнопки). <span class="muted">Версія коду магазину в адмінці: v${SHOP_VERSION}.</span></p>
   <ul class="cards">${items.map((p) => `<li class="pcard">
     ${thumb(p) ? `<img class="thumb" src="${h(thumb(p))}" alt="" loading="lazy">` : '<div class="thumb"></div>'}
     <div class="info"><strong>${h(itemTitle(p))}<span class="badge">${h(SHOP_LABELS[p.status] || '—')}</span>${p.published === false ? '<span class="badge">чернетка</span>' : ''}</strong>
@@ -1107,6 +1109,7 @@ app.addEventListener('click', (e) => {
     case 'svc-up': case 'svc-down': { const a = state.data.services.items; const j = i + (act === 'svc-up' ? -1 : 1); if (j >= 0 && j < a.length) { [a[i], a[j]] = [a[j], a[i]]; renderList(); } break; }
     case 'post-new': state.draft = newPostDraft(); state.isNew = true; renderPostEditor(); break;
     case 'post-edit': state.draft = postDraftFrom(state.data.posts.find((x) => x.slug === slug)); state.isNew = false; renderPostEditor(); break;
+    case 'item-regen': state.forceRegen = true; refreshBar(); toast('Готово до публікації: натисніть «Опублікувати на сайті», щоб перебудувати сторінки з поточного коду.', 'ok', 8000); break;
     case 'item-new': state.draft = newItemDraft(); state.isNew = true; renderItemEditor(); break;
     case 'item-edit': state.draft = itemDraftFrom(state.data.shop.items.find((x) => x.slug === slug)); state.isNew = false; renderItemEditor(); break;
     default: break;

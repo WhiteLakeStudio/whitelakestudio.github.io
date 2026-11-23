@@ -1399,6 +1399,11 @@ button:focus-visible,
 .shop_filters button[aria-pressed="true"] { background: #7700ff; border-color: #7700ff; color: #ffffff; }
 .shop_filters button[aria-pressed="true"] span { color: #e2ccff; }
 .shop_filters button:focus-visible, .shop_card a:focus-visible, .shop_modal button:focus-visible, .shop_modal a:focus-visible { outline: 2px solid #a066ff; outline-offset: 3px; }
+.shop_sort { position: relative; margin-left: auto; }
+.shop_sort select { appearance: none; -webkit-appearance: none; padding: 0.65rem 2.6rem 0.65rem 1.2rem; font: inherit; font-size: 0.95rem; color: #ffffff; background: #181818 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238d8d8d' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 0.9rem center / 1rem; border: 1px solid #2b2b2b; border-radius: 999px; cursor: pointer; transition: border-color 0.25s ease; }
+.shop_sort select:hover { border-color: #444444; }
+.shop_sort select:focus { outline: none; border-color: #7700ff; }
+.shop_sort option { background: #181818; color: #ffffff; }
 .shop_none { margin: 3rem 0; color: #8d8d8d; }
 .shop_none[hidden] { display: none; }
 

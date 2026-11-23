@@ -464,6 +464,7 @@ const X = {
     shop_meta_desc: 'Ready-made sets and resources from WhiteLakeViz: free downloads, paid sets and upcoming releases.',
     shop_empty: 'The first sets are coming soon.', all_items: 'All sets',
     f_all: 'All', f_free: 'Free', f_link: 'Available', f_soon: 'Coming soon', f_none: 'Nothing found. Try another search or filter.',
+    sort_label: 'Sort', sort_new: 'Newest first', sort_old: 'Oldest first', sort_name: 'Name A–Z', sort_free: 'Free first',
     tags_h: 'Tags', formats_h: 'Available formats', search_ph: 'Search sets', close: 'Close', prev: 'Previous image', next: 'Next image',
     st_free: 'Free', st_link: 'Available', st_soon: 'Coming soon',
     btn_free: 'Download free', btn_link: 'Get this set', btn_soon: 'Coming soon', details: 'Details',
@@ -489,6 +490,7 @@ const X = {
     shop_meta_desc: 'Готові набори та ресурси від WhiteLakeViz: безкоштовні завантаження, платні набори й майбутні релізи.',
     shop_empty: 'Перші набори з\'являться найближчим часом.', all_items: 'Усі набори',
     f_all: 'Усі', f_free: 'Безкоштовні', f_link: 'Доступні', f_soon: 'Скоро', f_none: 'Нічого не знайдено. Спробуйте інший запит або фільтр.',
+    sort_label: 'Сортування', sort_new: 'Спочатку нові', sort_old: 'Спочатку старі', sort_name: 'За назвою', sort_free: 'Спочатку безкоштовні',
     tags_h: 'Теги', formats_h: 'Доступні формати', search_ph: 'Пошук по наборах', close: 'Закрити', prev: 'Попереднє фото', next: 'Наступне фото',
     st_free: 'Безкоштовно', st_link: 'Доступно', st_soon: 'Скоро на сайті',
     btn_free: 'Завантажити безкоштовно', btn_link: 'Отримати набір', btn_soon: 'Скоро', details: 'Докладніше',
@@ -841,6 +843,9 @@ function actionHtml(p, lang, cls = 'btn') {
   return `<a class="${cls}" href="${extHref(p)}" target="_blank" rel="noopener noreferrer nofollow">${esc(btnLabel(p, lang))}</a>`;
 }
 
+/* bump when the generated shop pages change, so the admin and the live page show which code produced them */
+export const SHOP_VERSION = 5;
+
 const csv = (s, max = 30) => String(s || '').split(/[,;\n]/).map((t) => t.trim().slice(0, 40)).filter(Boolean).slice(0, max);
 
 const SVG = (inner) => `<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
@@ -910,6 +915,20 @@ const SHOP_JS = String.raw`(function () {
     });
   });
   if (q) q.addEventListener('input', apply);
+  var sortEl = document.getElementById('shop-sort');
+  var rank = { free: 0, link: 1, soon: 2 };
+  function num(c) { return parseInt(c.getAttribute('data-i'), 10); }
+  function sortCards() {
+    var mode = sortEl ? sortEl.value : 'new', lang = document.documentElement.lang || undefined;
+    cards.sort(function (a, b) {
+      if (mode === 'old') return num(b) - num(a);
+      if (mode === 'name') return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'), lang) || num(a) - num(b);
+      if (mode === 'free') return (rank[a.getAttribute('data-status')] - rank[b.getAttribute('data-status')]) || num(a) - num(b);
+      return num(a) - num(b);
+    });
+    cards.forEach(function (c) { list.appendChild(c); });
+  }
+  if (sortEl) sortEl.addEventListener('change', sortCards);
 
   var dlg = document.getElementById('shop-modal');
   if (!dlg || typeof dlg.showModal !== 'function') return;
@@ -1051,7 +1070,7 @@ function buildShopIndex(data, lang, chunks, items) {
       : '<span class="shop_ph" aria-hidden="true"></span>';
     const price = p.status === 'free' ? x.st_free : p.status === 'soon' ? x.st_soon : shopPrice(p, lang);
     const search = [title, m.kind, m.software, ...m.tags, ...m.formats].join(' ').toLowerCase();
-    return `        <li class="shop_card is_${p.status}" data-slug="${esc(p.slug)}" data-status="${p.status}" data-search="${esc(search)}">
+    return `        <li class="shop_card is_${p.status}" data-slug="${esc(p.slug)}" data-status="${p.status}" data-i="${i}" data-title="${esc(title.toLowerCase())}" data-search="${esc(search)}">
           <a class="shop_media shop_open" href="${itemPath(p, lang)}" tabindex="-1" aria-hidden="true">${media}</a>
           <p class="shop_name"><a class="shop_open" href="${itemPath(p, lang)}">${esc(title)}</a></p>
           <p class="shop_sub"><span>${esc(m.kind || stLabel(p, lang))}</span>${price ? `<span class="shop_pr">${esc(price)}</span>` : ''}</p>
@@ -1065,12 +1084,20 @@ ${present.map((s) => `          <button type="button" data-f="${s}" aria-pressed
         </div>` : '';
   const search = items.length >= 6
     ? `<label class="shop_search">${ICON.search}<input id="shop-q" type="search" placeholder="${esc(x.search_ph)}" aria-label="${esc(x.search_ph)}" autocomplete="off"></label>` : '';
-  const bar = search || filters ? `      <div class="shop_bar">\n        ${search}\n        ${filters}\n      </div>\n` : '';
+  const sort = items.length >= 2
+    ? `<label class="shop_sort"><span class="sr_only">${esc(x.sort_label)}</span><select id="shop-sort" aria-label="${esc(x.sort_label)}">
+          <option value="new">${x.sort_new}</option>
+          <option value="old">${x.sort_old}</option>
+          <option value="name">${x.sort_name}</option>
+          <option value="free">${x.sort_free}</option>
+        </select></label>` : '';
+  const bar = search || filters || sort ? `      <div class="shop_bar">\n        ${search}\n        ${filters}\n        ${sort}\n      </div>\n` : '';
   const main = `    <main class="project page_shop">
       <p class="crumbs"><a href="${root}/">${T[lang].home}</a><span>/</span>${x.shop}</p>
       <h1 class="project_title">${x.shop_h1}</h1>
       <p class="project_lead">${x.shop_lead}</p>
-${items.length ? `${bar}      <p class="shop_none" id="shop-none" hidden>${x.f_none}</p>
+${items.length ? `      <!-- shop v${SHOP_VERSION} -->
+${bar}      <p class="shop_none" id="shop-none" hidden>${x.f_none}</p>
       <ul class="shop_list">
 ${cards}
       </ul>
