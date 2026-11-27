@@ -118,11 +118,19 @@
     var ctx = cv.getContext && cv.getContext('2d');
     if (!ctx) return;
     var w, h, cols, rows, order, n, t0, started = false, done = false;
+    var T = lang === 'uk' ? { r: 'Рендер', l: 'Залишилось' } : { r: 'Rendering', l: 'Time left' };
+    var bar = doc.createElement('div');
+    bar.className = 'hero_progress';
+    bar.setAttribute('aria-hidden', 'true');
+    bar.innerHTML = '<div class="hp_row"><span class="hp_pct"></span><span class="hp_left"></span></div><div class="hp_line"><i></i></div>';
+    var pct = bar.querySelector('.hp_pct'), left = bar.querySelector('.hp_left'), fill = bar.querySelector('i');
 
     var finish = function () {
       if (done) return;
       done = true;
       if (cv.parentNode) cv.parentNode.removeChild(cv);
+      bar.classList.add('is_done');
+      setTimeout(function () { if (bar.parentNode) bar.parentNode.removeChild(bar); }, 900);
       window.removeEventListener('resize', finish);
     };
     var size = function () {
@@ -138,6 +146,10 @@
       var p = Math.min(1, (now - t0) / TOTAL);
       var e = p * p * (3 - 2 * p);   // slow start, fast middle, slow finish like a real render
       var shown = Math.floor(e * n);
+      var pc = Math.floor(e * 100), sec = Math.max(0, Math.ceil((TOTAL - (now - t0)) / 1000));
+      pct.textContent = T.r + '... ' + pc + '%';
+      left.textContent = T.l + ': 00:00:0' + sec;
+      fill.style.transform = 'scaleX(' + e.toFixed(3) + ')';
       ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = '#1b1b1b';
       ctx.beginPath();
@@ -166,6 +178,7 @@
         var b = Math.floor(Math.random() * (a + 1)), t = order[a]; order[a] = order[b]; order[b] = t;
       }
       hero.insertBefore(cv, hero.firstChild);
+      hero.parentNode.appendChild(bar);
       window.addEventListener('resize', finish);
       t0 = performance.now();
       requestAnimationFrame(draw);
