@@ -142,8 +142,8 @@
           <button type="button" class="sm_close" aria-label="Закрити"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
           <div class="sm_media">
             <div class="sm_stage"></div>
-            <button type="button" class="sm_nav sm_prev" aria-label="Попередній набір"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
-            <button type="button" class="sm_nav sm_next" aria-label="Наступний набір"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+            <button type="button" class="sm_nav sm_prev" aria-label="Попереднє фото"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+            <button type="button" class="sm_nav sm_next" aria-label="Наступне фото"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
             <div class="sm_thumbs" hidden></div>
           </div>
           <div class="sm_body">
@@ -194,16 +194,21 @@
   if (!dlg || typeof dlg.showModal !== 'function') return;
   function $(s) { return dlg.querySelector(s); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  var cur = null;
+  var cur = null, idx = 0;
 
   function setImage(it, i) {
     var stage = $('.sm_stage'), im = it.images[i];
+    idx = i;
     stage.textContent = '';
     if (!im) { stage.appendChild(el('span', 'sm_ph')); return; }
     var img = el('img'); img.src = im.src; img.alt = it.title + (i ? ' (' + (i + 1) + ')' : '');
     if (im.w && im.h) { img.width = im.w; img.height = im.h; }
     stage.appendChild(img);
-    [].forEach.call($('.sm_thumbs').children, function (t, k) { t.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+    var th = $('.sm_thumbs');
+    [].forEach.call(th.children, function (t, k) {
+      t.setAttribute('aria-current', k === i ? 'true' : 'false');
+      if (k === i && i > 0) th.scrollLeft = t.offsetLeft - (th.clientWidth - t.offsetWidth) / 2;
+    });
   }
   function fillTags(sel, arr) {
     var ul = $(sel); ul.textContent = '';
@@ -234,6 +239,7 @@
     }
     th.hidden = it.images.length < 2;
     setImage(it, 0);
+    $('.sm_prev').hidden = $('.sm_next').hidden = it.images.length < 2;
     var a = $('.sm_cta'), soon = $('.sm_soon');
     a.hidden = !it.url; soon.hidden = !!it.url;
     if (it.url) { a.href = it.url; a.textContent = it.button; } else { soon.textContent = it.button; }
@@ -247,15 +253,21 @@
     try { history.replaceState(null, '', '#' + it.slug); } catch (e) {}
   }
   function step(d) {
-    var vis = cards.filter(function (c) { return !c.hidden; });
-    var i = vis.map(function (c) { return c.getAttribute('data-slug'); }).indexOf(cur && cur.slug);
-    if (vis.length > 1 && i > -1) open(vis[(i + d + vis.length) % vis.length].getAttribute('data-slug'));
+    var n = cur ? cur.images.length : 0;
+    if (n > 1) setImage(cur, (idx + d + n) % n);
   }
   list.addEventListener('click', function (e) {
     if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var a = e.target.closest('a.shop_open'); if (!a) return;
     e.preventDefault(); open(a.closest('.shop_card').getAttribute('data-slug'));
   });
+  var sx = null, stg = $('.sm_stage');
+  stg.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+  stg.addEventListener('pointerup', function (e) {
+    if (sx !== null && Math.abs(e.clientX - sx) > 40) step(e.clientX < sx ? 1 : -1);
+    sx = null;
+  });
+  stg.addEventListener('pointercancel', function () { sx = null; });
   $('.sm_close').addEventListener('click', function () { dlg.close(); });
   $('.sm_prev').addEventListener('click', function () { step(-1); });
   $('.sm_next').addEventListener('click', function () { step(1); });
