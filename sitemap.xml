@@ -87,17 +87,31 @@
   </url>
   <url>
     <loc>https://studiowhitelake.xyz/shop.html</loc>
-    <lastmod>2026-11-23</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop.html"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop.html"/>
   </url>
   <url>
     <loc>https://studiowhitelake.xyz/ua/shop.html</loc>
-    <lastmod>2026-11-23</lastmod>
+    <lastmod>2026-11-27</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop.html"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/shop/01-concrete.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop/01-concrete.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop/01-concrete.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop/01-concrete.html"/>
+  </url>
+  <url>
+    <loc>https://studiowhitelake.xyz/ua/shop/01-concrete.html</loc>
+    <lastmod>2026-11-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://studiowhitelake.xyz/shop/01-concrete.html"/>
+    <xhtml:link rel="alternate" hreflang="uk" href="https://studiowhitelake.xyz/ua/shop/01-concrete.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://studiowhitelake.xyz/shop/01-concrete.html"/>
   </url>
   <url>
     <loc>https://studiowhitelake.xyz/shop/02-venetian-plaster-matte.html</loc>

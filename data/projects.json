@@ -318,6 +318,18 @@
     "blog-chy-vykorystovuie-whitelakeviz-shi-u-roboti-1.webp": [
       2400,
       1350
+    ],
+    "shop-01-concrete-1.webp": [
+      2000,
+      3000
+    ],
+    "shop-01-concrete-2.webp": [
+      2048,
+      2048
+    ],
+    "shop-01-concrete-3.webp": [
+      2048,
+      2048
     ]
   },
   "services": {
@@ -455,6 +467,36 @@
   ],
   "shop": {
     "items": [
+      {
+        "slug": "01-concrete",
+        "date": "2026-11-27",
+        "updated": "2026-11-27",
+        "published": true,
+        "status": "free",
+        "files": [
+          "shop-01-concrete-1.webp",
+          "shop-01-concrete-2.webp",
+          "shop-01-concrete-3.webp"
+        ],
+        "url": "https://drive.google.com/drive/folders/1MWLaJHVKDq7gEtloS0Q2sXuJT9KJ-CK5?usp=sharing",
+        "formats": "png",
+        "en": {
+          "title": "01 Concrete",
+          "lead": "Architectural Smooth Concrete — Smooth, refined light-grey concrete featuring natural micro-pores, delicate air pockets, and subtle tonal mottling. Its clean, understated surface balances raw industrial character with modern elegance, making it an essential choice for brutalist, minimalist, and contemporary architectural interiors.",
+          "kind": "Concrete",
+          "specs": "1,5m x 1,5m",
+          "license": "Royalty-free",
+          "tags": "architectural concrete, smooth concrete, raw concrete, concrete wall, grey concrete, porous concrete, microcement, seamless texture, pbr material, architectural visualization, archviz, minimalist interior, industrial style, brutalist architecture, loft wall, 3d material, corona renderer, v-ray, blender"
+        },
+        "uk": {
+          "title": "01 Бетон",
+          "lead": "Архітектурний гладкий бетон — витончений світло-сірий бетон із природними мікропорами, дрібними повітряними раковинами та делікатними перепадами відтінків. Чиста, стримана поверхня поєднує індустріальний характер із сучасною елегантністю, ідеально доповнюючи мінімалістичні, лофтові та бруталістичні інтер'єри.",
+          "kind": "Бетон",
+          "specs": "1,5 м х 1,5 м",
+          "license": "Вільна",
+          "tags": "архітектурний бетон, гладкий бетон, бетонна стіна, сірий бетон, пористий бетон, мікроцемент, безшовна текстура, pbr матеріал, архітектурна візуалізація, мінімалістичний інтер'єр, індустріальний стиль, лофт, бруталізм, 3d матеріал, текстура бетону"
+        }
+      },
       {
         "slug": "02-venetian-plaster-matte",
         "date": "2026-11-22",
