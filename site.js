@@ -1,5 +1,5 @@
 /* WhiteLakeViz shared script: mobile menu, scroll reveals, contact form,
-   hero "concept lens", language suggestion banner. One file for every page. */
+   hero tile-render intro, language suggestion banner. One file for every page. */
 (function () {
   'use strict';
   window.__wl = 1; // tells the failsafe in <head> that this script is alive
@@ -104,84 +104,79 @@
     });
   }
 
-  /* ---------- 5. hero: "concept behind the render" lens ----------
-     The page first shows the blueprint-style concept, an iris closes and the finished
-     render appears (pure CSS animation). After that the cursor (or a finger) opens a
-     small lens that shows the concept again. */
-  var section = doc.querySelector('.hero_visual');
-  var hero = section && section.querySelector('.hero_reveal');
-  if (section && hero) {
-    var live = false, down = false, raf = 0;
-    var tx = 0, ty = 0, cx = 0, cy = 0;
+  /* ---------- 5. hero: "render bucket" intro ----------
+     A dark canvas covers the picture and is cleared in random 32x32 px tiles, like a
+     renderer filling its frame buffer. No JS or reduced motion: the picture is just there. */
+  (function () {
+    var hero = doc.querySelector('.hero_visual .hero_reveal');
+    if (!hero || reduce || !hero.getBoundingClientRect) return;
+    var img = hero.querySelector('.hero_img');
+    var TILE = 32, TOTAL = 2800, ACTIVE = 6;
+    var cv = doc.createElement('canvas');
+    cv.className = 'hero_tiles';
+    cv.setAttribute('aria-hidden', 'true');
+    var ctx = cv.getContext && cv.getContext('2d');
+    if (!ctx) return;
+    var w, h, cols, rows, order, n, t0, started = false, done = false;
 
-    var goLive = function () {
-      if (live) return;
-      live = true;
-      var box = hero.getBoundingClientRect();
-      cx = tx = box.width * 0.5;
-      cy = ty = box.height * 0.58;
-      hero.style.setProperty('--x', cx + 'px');
-      hero.style.setProperty('--y', cy + 'px');
-      hero.classList.add('is_live');
+    var finish = function () {
+      if (done) return;
+      done = true;
+      if (cv.parentNode) cv.parentNode.removeChild(cv);
+      window.removeEventListener('resize', finish);
     };
-    // if the clay render is missing, fall back to the filtered main picture
-    var draftImg = hero.querySelector('.hero_draft .hero_img');
-    var mainImg = hero.querySelector('.hero_reveal > .hero_img, .hero_reveal .hero_img');
-    var useFallback = function () {
-      hero.classList.add('draft_fallback');
-      if (mainImg && draftImg && draftImg.getAttribute('src') !== mainImg.getAttribute('src')) draftImg.src = mainImg.getAttribute('src');
+    var size = function () {
+      var r = hero.getBoundingClientRect();
+      w = Math.ceil(r.width); h = Math.ceil(r.height);
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = w * dpr; cv.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cols = Math.ceil(w / TILE); rows = Math.ceil(h / TILE);
     };
-    if (draftImg) {
-      draftImg.addEventListener('error', useFallback);
-      if (draftImg.complete && draftImg.naturalWidth === 0) useFallback();
-    }
-    hero.addEventListener('animationend', function (e) {
-      if (e.target === hero) goLive();
-    });
-    setTimeout(goLive, reduce ? 0 : 3400); // safety net if the animation never reports back
-
-    var tick = function () {
-      cx += (tx - cx) * 0.2;
-      cy += (ty - cy) * 0.2;
-      hero.style.setProperty('--x', cx.toFixed(1) + 'px');
-      hero.style.setProperty('--y', cy.toFixed(1) + 'px');
-      raf = (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4) ? requestAnimationFrame(tick) : 0;
+    var draw = function (now) {
+      if (done) return;
+      var p = Math.min(1, (now - t0) / TOTAL);
+      var e = p * p * (3 - 2 * p);   // slow start, fast middle, slow finish like a real render
+      var shown = Math.floor(e * n);
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = '#1b1b1b';
+      ctx.beginPath();
+      for (var i = shown; i < n; i++) {
+        var k = order[i];
+        ctx.rect((k % cols) * TILE, Math.floor(k / cols) * TILE, TILE, TILE);
+      }
+      ctx.fill();
+      // the next few tiles are "being rendered": still empty, but outlined like a render bucket
+      ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+      ctx.lineWidth = 1;
+      for (var j = shown; j < Math.min(n, shown + ACTIVE); j++) {
+        var m = order[j];
+        ctx.strokeRect((m % cols) * TILE + 0.5, Math.floor(m / cols) * TILE + 0.5, TILE - 1, TILE - 1);
+      }
+      if (p < 1) requestAnimationFrame(draw); else finish();
     };
-    var aim = function (e, jump) {
-      var box = hero.getBoundingClientRect();
-      tx = e.clientX - box.left;
-      ty = e.clientY - box.top;
-      if (jump) { cx = tx; cy = ty; }
-      if (!raf) raf = requestAnimationFrame(tick);
+    var start = function () {
+      if (started) return;
+      started = true;
+      size();
+      n = cols * rows;
+      order = [];
+      for (var i = 0; i < n; i++) order.push(i);
+      for (var a = n - 1; a > 0; a--) {            // Fisher-Yates shuffle
+        var b = Math.floor(Math.random() * (a + 1)), t = order[a]; order[a] = order[b]; order[b] = t;
+      }
+      hero.insertBefore(cv, hero.firstChild);
+      window.addEventListener('resize', finish);
+      t0 = performance.now();
+      requestAnimationFrame(draw);
     };
-    var lensOn = function (e, jump) {
-      hero.classList.add('is_lens');
-      section.classList.add('hint_done');
-      aim(e, jump);
-    };
-    var lensOff = function () { hero.classList.remove('is_lens'); };
-    var overLink = function (e) { return e.target.closest && e.target.closest('a'); };
-
-    section.addEventListener('pointermove', function (e) {
-      if (!live) return;
-      if (e.pointerType !== 'mouse' && e.pointerType !== 'pen' && !down) return;
-      if (overLink(e)) { lensOff(); return; }
-      lensOn(e, false);
-    });
-    section.addEventListener('pointerdown', function (e) {
-      if (e.pointerType === 'mouse' || !live || overLink(e)) return;
-      down = true;
-      lensOn(e, true);
-    });
-    var release = function (e) {
-      if (e.pointerType === 'mouse') return;
-      down = false;
-      lensOff();
-    };
-    section.addEventListener('pointerup', release);
-    section.addEventListener('pointercancel', release);
-    section.addEventListener('pointerleave', lensOff);
-  }
+    // wait for the picture (up to 1.5 s) so the tiles reveal something real
+    if (img && !(img.complete && img.naturalWidth)) {
+      img.addEventListener('load', start);
+      img.addEventListener('error', finish);
+      setTimeout(start, 1500);
+    } else start();
+  })();
 
   /* ---------- 6. language suggestion (instead of an automatic redirect) ---------- */
   (function () {
